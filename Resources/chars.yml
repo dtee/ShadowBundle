@@ -1,0 +1,31 @@
+neutral:
+  original:
+    allie: 8
+    bob: 10
+    charles: 11
+    daniel: 14
+  expend:
+    agnes: 8
+    bryan: 10
+    catherine: 11
+    david: 14
+
+hunter:
+  original:
+    ellen: 10
+    fu-ka: 11
+    gregor: 14
+  expend:
+    emi: 10
+    franklin: 11
+    george: 14
+
+shadow:
+  original:
+    unknown: 10
+    vampire: 13
+    werewolf: 14
+  expend:
+    ultrasoul: 10
+    valkyrie: 13
+    wight: 14

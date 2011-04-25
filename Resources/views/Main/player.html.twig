@@ -1,0 +1,20 @@
+{% extends "ShadowBundle::layout.html.twig" %}
+
+{% block title %}
+	{{ player.name }}
+{% endblock %}
+
+{% block content %}
+	<h3>Player: {{ player.name }} </h3>
+	{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
+
+	<hr/>
+	<div>
+		<h3>Games: </h3>
+		{% for game in player.games %}
+			<div>
+			{% include 'ShadowBundle:Main:_game.html.twig' with {'game': game} %}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

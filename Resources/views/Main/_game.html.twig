@@ -1,0 +1,10 @@
+<h3>{{ game.getPlayTime()  | date("m/d/Y") }} ({{ game.getPlayers() | length }} players)<h3>
+<div class="players">
+{% for player in game.getPlayers() %}
+	{% set css = player.isWin ? 'won' : '' %}
+	<span class="player {{ css}}">
+		<strong class="username">{{ player.getUsername() }}</strong>
+		<span class="charname">{{ player.char.getName() }} ({{ player.char.getFaction() }})</span>
+	</span>
+{% endfor %}
+</div>

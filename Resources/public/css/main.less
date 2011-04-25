@@ -1,0 +1,38 @@
+@import 'elements.less';
+
+@border: 1px solid #DFDFDF;
+
+.game {
+	float: left;
+	margin-right: 20px;
+	height: 380px;
+}
+	
+.players {
+	padding: 3px 0px;
+	@rounded(10px);
+	border: @border;
+	padding: 5px 10px;
+	width: 360px;
+	height: 300px;
+
+	.won {
+		color: green;
+	}
+	
+	.player {
+		padding: 3px 0px;
+		clear: both;
+		display: block;
+	
+		.username {
+			display: block;
+			float: left;
+			width: 150px;
+		}
+		
+		.charname {
+			
+		}
+	}
+}

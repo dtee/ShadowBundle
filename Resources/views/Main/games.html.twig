@@ -1,0 +1,16 @@
+{% extends "ShadowBundle::layout.html.twig" %}
+
+{% block title %}
+	Games
+{% endblock %}
+
+{% block content %}
+	<h3>All Games </h3>
+	<div class="clearfix">
+	{% for game in games %}
+		<div class="game">
+		{% include 'ShadowBundle:Main:_game.html.twig' with {'game': game} %}
+		</div>
+	{% endfor %}
+	</div>
+{% endblock %}

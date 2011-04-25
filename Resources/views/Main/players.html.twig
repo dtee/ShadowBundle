@@ -1,0 +1,14 @@
+{% extends "ShadowBundle::layout.html.twig" %}
+
+{% block title %}
+	Players
+{% endblock %}
+
+{% block content %}
+	<h3>All Players </h3>
+	{% for player in players %}
+		<div>
+		{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
+		</div>
+	{% endfor %}
+{% endblock %}

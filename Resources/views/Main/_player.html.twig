@@ -1,0 +1,16 @@
+<div class="span-5">
+	<strong class="span-2">
+		<a href=" {{ path('odl_shadow_main_player', {'id' : player.name}) }} ">{{ player.name }}</a>
+	</strong> 
+	<a title="Total Win">{{ player.totalWin }}</a> /
+	<a title="Total Played">{{ player.totalPlayed }}</a> : 
+	<a title="Win rate">{{ player.getPercentage() }}%</a>
+</div>
+
+{% for faction in player.factions %}
+	<div class="span-5">
+	{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': faction} %}
+	</div>
+{% endfor %}
+
+<div class="clearfix"/>
