@@ -5,6 +5,7 @@ abstract class Stats
 	public $name;
 	public $totalPlayed = 0;
 	public $totalWin = 0;
+	public $class;
 	
 	public function __construct($name)
 	{

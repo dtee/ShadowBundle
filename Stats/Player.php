@@ -7,6 +7,7 @@ class Player
 	public $totalAlive = 0;
 	public $factions;
 	public $games;
+	public $class = "player";
 	
 	public function __construct($name)
 	{

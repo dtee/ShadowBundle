@@ -1,0 +1,13 @@
+{% block name %}
+	<strong class="span-2">{{ stats.name }}</strong>
+{% endblock %}
+
+{% block stats %}
+	<a title="Total Win">{{ stats.totalWin }}</a> /
+	<a title="Total Played">{{ stats.totalPlayed }}</a> : 
+	<a title="Win rate">{{ stats.getPercentage() }}%</a>
+	
+	{% if stats.totalAlive %}
+		<a title="Total Alive">{stats.totalAlive}</a>
+	{% endif %}
+{% endblock %}

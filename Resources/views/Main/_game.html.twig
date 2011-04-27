@@ -1,10 +1,22 @@
-<h3>{{ game.getPlayTime()  | date("m/d/Y") }} ({{ game.getPlayers() | length }} players)<h3>
+<h3>{{ game.getPlayTime()  | date("m/d/Y") }} 
+	({{ game.getPlayers() | length }} players)
+	
+	<span class="right">
+		<a href="javascript:void(0)" onclick="alert('implement me')">Edit</a>
+	</span>
+</h3>
 <div class="players">
 {% for player in game.getPlayers() %}
 	{% set css = player.isWin ? 'won' : '' %}
-	<span class="player {{ css}}">
-		<strong class="username">{{ player.getUsername() }}</strong>
-		<span class="charname">{{ player.char.getName() }} ({{ player.char.getFaction() }})</span>
+	<span class="player {{ css}} {{ player.getUsername() }}">
+		<a href="{{ path('odl_shadow_main_player', {'id' : player.getUsername()}) }}">
+			<span class="username">{{ player.getUsername() }}
+			</span>
+		</a>
+		<span class="charname">
+			{{ player.char.getName() }} 
+			(<span class="{{ player.char.getFaction() }}">{{ player.char.getFaction() }}</span>)
+		</span>
 	</span>
 {% endfor %}
 </div>

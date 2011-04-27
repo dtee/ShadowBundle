@@ -33,8 +33,6 @@ class MainController
 	 */
 	public function indexAction()
 	{
-
-
 		return array(
 			'games' => $this->games,
 			'factions' => $this->factions,
@@ -104,7 +102,14 @@ class MainController
 	 */
 	public function playerAction($id)
 	{
-		return array('player' => $this->players[$id]);
+		return array(
+			'games' => $this->games,
+			'factions' => $this->factions,
+			'players' => $this->players,
+			'chars' => $this->chars,
+			'charsStats' => $this->charsStats,
+			'player' => $this->players[$id]
+		);
 	}
 
 	/**

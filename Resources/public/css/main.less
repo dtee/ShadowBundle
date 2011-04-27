@@ -4,20 +4,30 @@
 
 .game {
 	float: left;
-	margin-right: 20px;
-	height: 380px;
-}
+	height: 340px;
 	
-.players {
-	padding: 3px 0px;
-	@rounded(10px);
+	h3 {
+		background: #ddd;
+		padding: 5px;
+		margin: 0px;
+	}
+	
+	@border-radius(0px; 10px; 10px; 0px);
 	border: @border;
+	margin: 0px 10px 20px 10px;
+}
+
+.players {
 	padding: 5px 10px;
-	width: 360px;
-	height: 300px;
+	width: 392px;
+	height: 280px;
 
 	.won {
-		color: green;
+		font-weight: bold;
+		
+		a {
+			color: blue;
+		}
 	}
 	
 	.player {
@@ -31,8 +41,16 @@
 			width: 150px;
 		}
 		
-		.charname {
-			
+		.shadow {
+			color: red;
+		}
+		
+		.netural {
+			color: gray;
+		}
+		
+		.hunter {
+			color: green;
 		}
 	}
 }

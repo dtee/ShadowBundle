@@ -1,16 +1,25 @@
-<div class="span-5">
-	<strong class="span-2">
-		<a href=" {{ path('odl_shadow_main_player', {'id' : player.name}) }} ">{{ player.name }}</a>
-	</strong> 
-	<a title="Total Win">{{ player.totalWin }}</a> /
-	<a title="Total Played">{{ player.totalPlayed }}</a> : 
-	<a title="Win rate">{{ player.getPercentage() }}%</a>
-</div>
+{% extends "ShadowBundle::basestats.html.twig" %}
+{% set stats = player %}
 
-{% for faction in player.factions %}
-	<div class="span-5">
-	{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': faction} %}
-	</div>
-{% endfor %}
+{% block name %}
+	<strong>
+		<a href="{{ path('odl_shadow_main_player', {'id' : stats.name}) }}" title="stats.getPercentage()">
+			{{ stats.name }}
+		</a>
+	</strong>
+{% endblock %}
 
-<div class="clearfix"/>
+{% block stats %}
+	{{ parent() }}
+	
+{#	{% if player.totalAlive %}
+		Alive: <a title="Total Alive">{{ stats.totalAlive }}</a>
+	{% endif %} #}
+	
+	{% for faction in player.factions %}
+		<span>
+			{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': faction} %}
+		</span>
+	{% endfor %}
+	<div class="clearfix" />
+{% endblock %}

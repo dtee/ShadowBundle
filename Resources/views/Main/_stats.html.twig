@@ -1,8 +1,0 @@
-<strong class="span-2">{{ stats.name }}</strong> 
-<a title="Total Win">{{ stats.totalWin }}</a> /
-<a title="Total Played">{{ stats.totalPlayed }}</a> : 
-<a title="Win rate">{{ stats.getPercentage() }}%</a>
-
-{% if isset(stats.totalAlive) %}
-	<a title="Total Alive">{stats.totalAlive}</a>
-{% endif %}

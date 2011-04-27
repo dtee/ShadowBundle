@@ -8,7 +8,7 @@
 	<h3>All Characters </h3>
 	{% for char in charsStats %}
 		<div>
-		{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': char} %}
+		{% include 'ShadowBundle:Main:_char.html.twig' with {'char': char} %}
 		</div>
 	{% endfor %}
 {% endblock %}
