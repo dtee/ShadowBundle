@@ -8,15 +8,15 @@ class Player
 	public $factions;
 	public $games;
 	public $class = "player";
-	
-	public function __construct($name)
+
+	public function __construct($name, array $factionStats)
 	{
-		$factions = array('hunter', 'shadow', 'neutral');
-		foreach ($factions as $factionName)
+		foreach ($factionStats as $faction)
 		{
-			$this->factions[$factionName] = new Faction($factionName);
+			$factionName = $faction->name;
+			$this->factions[$factionName] = new PlayerFaction($factionName, $faction);
 		}
-		
+
 		parent::__construct($name);
 	}
 }

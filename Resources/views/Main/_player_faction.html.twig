@@ -1,0 +1,16 @@
+{% extends "ShadowBundle::basestats.html.twig" %}
+{% set stats = faction %}
+
+{% block name %}
+	{{ parent() }}
+{% endblock %}
+
+{% block winRate %}
+	{{ parent() }}
+	(<a title="Relative chance to win">{{ stats.getRelativeChanceToWin() }}%</a>)
+{% endblock %}
+
+{% block aliveRate %}
+	{{ parent() }}
+	(<a title="Relative chance to survive">{{ stats.getChanceToLive() }}%</a>)
+{% endblock %}

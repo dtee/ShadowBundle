@@ -5,14 +5,18 @@
 	
 	{% block stats %}
 		<span class="win-rate">
-			<a title="Total Win">{{ stats.totalWin }}</a> /
-			<a title="Total Played">{{ stats.totalPlayed }}</a> : 
-			<a title="Win rate">{{ stats.getPercentage() }}%</a>
+			{% block winRate %}
+				<a title="Total Win">{{ stats.totalWin }}</a> /
+				<a title="Total Played">{{ stats.totalPlayed }}</a> : 
+				<a title="Chance to win">{{ stats.getChanceToWin() }}%</a>
+			{% endblock %}
 		</span>
 		<span class="alive-rate">
-			<a title="Total Alive">{{ stats.totalAlive }}</a> /
-			<a title="Total Played">{{ stats.totalPlayed }}</a> : 
-			<a title="Chance to live at game end">{{ stats.getChanceToLive() }}%</a>
+			{% block aliveRate %}
+				<a title="Total Alive">{{ stats.totalAlive }}</a> /
+				<a title="Total Played">{{ stats.totalPlayed }}</a> : 
+				<a title="Relative chance to survive">{{ stats.getChanceToLive() }}%</a>
+			{% endblock %}
 		</span>
 	{% endblock %}
 </span>

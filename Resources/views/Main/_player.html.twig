@@ -14,6 +14,6 @@
 	{{ parent() }}
 	
 	{% for faction in player.factions %}
-		{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': faction} %}
+		{% include 'ShadowBundle:Main:_player_faction.html.twig' with {'faction': faction} %}
 	{% endfor %}
 {% endblock %}
