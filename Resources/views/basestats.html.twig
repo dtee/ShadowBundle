@@ -1,11 +1,18 @@
 <span class="stats {{ stats.class }}">
 	{% block name %}
-		<strong class="name">{{ stats.name }}</strong>
+		<span class="name">{{ stats.name }}</span>
 	{% endblock %}
 	
 	{% block stats %}
-		<a title="Total Win">{{ stats.totalWin }}</a> /
-		<a title="Total Played">{{ stats.totalPlayed }}</a> : 
-		<a title="Win rate">{{ stats.getPercentage() }}%</a>
+		<span class="win-rate">
+			<a title="Total Win">{{ stats.totalWin }}</a> /
+			<a title="Total Played">{{ stats.totalPlayed }}</a> : 
+			<a title="Win rate">{{ stats.getPercentage() }}%</a>
+		</span>
+		<span class="alive-rate">
+			<a title="Total Alive">{{ stats.totalAlive }}</a> /
+			<a title="Total Played">{{ stats.totalPlayed }}</a> : 
+			<a title="Chance to live at game end">{{ stats.getChanceToLive() }}%</a>
+		</span>
 	{% endblock %}
 </span>

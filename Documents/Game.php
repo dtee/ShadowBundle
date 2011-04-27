@@ -39,35 +39,12 @@ class Game
 	 */
 	public function addPlayer(PlayerCharacter $p)
 	{
-		$this->players[] = $p;
-		$faction = $p->char->getFaction();
-		if ($p->isWin)
-		{
-			$this->winners[] = $p;
-			$this->factions[$faction] = 1;
-		}
-		else
-		{
-			// One netural win all neturals?
-			if (!isset($this->factions[$faction]))
-			{
-				$this->factions[$faction] = 0;
-			}
-		}
+		$this->players[$p->getUsername()] = $p;
+		ksort($this->players);
 	}
 	
 	public function getPlayers()
 	{
 		return $this->players;
-	}
-	
-	public function getWinners()
-	{
-		return $this->winners;
-	}
-	
-	public function getPlayedFactions()
-	{
-		return $this->factions;
 	}
 }

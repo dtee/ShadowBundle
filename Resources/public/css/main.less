@@ -1,15 +1,24 @@
 @import 'elements.less';
 
 @border: 1px solid #DFDFDF;
+@twoBox() {
+	padding: 5px 10px;
+	width : 392px;
+}
+
+@header() {
+	background: #ddd;
+	padding: 5px;
+	margin: 0px;
+	display: block;
+};
 
 .game {
 	float: left;
 	height: 340px;
 	
 	h3 {
-		background: #ddd;
-		padding: 5px;
-		margin: 0px;
+		@header();
 	}
 	
 	@border-radius(0px; 10px; 10px; 0px);
@@ -17,9 +26,41 @@
 	margin: 0px 10px 20px 10px;
 }
 
+.stats {
+	&.player {
+		width: 30px;
+		float: left;
+		margin: 10px;
+		display: block;
+		border: @border;
+		height: 120px;
+		
+		@border-radius(0px; 10px; 10px; 0px);
+		@twoBox();
+		
+		.name {
+			display: inline-block;
+			width: 120px;
+		}
+		
+		.title.name {
+			width: auto;
+			@header;
+		}
+		
+		.stats {
+			display: block;
+		}
+	}
+	
+	.win-rate, .alive-rate {
+		width: 120px;
+		display: inline-block;
+	}
+}
+
 .players {
-	padding: 5px 10px;
-	width: 392px;
+	@twoBox();
 	height: 280px;
 
 	.won {

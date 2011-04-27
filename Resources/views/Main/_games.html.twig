@@ -1,4 +1,4 @@
-Filter By Winners: 
+Filter By Winners: <span id="winner-filter-total"></span>
 <form id="winner-filter">
 	<input type="checkbox" value="all" id="all-id" checked="checked"/>
 	<label for="all-id">All</label>
@@ -20,74 +20,9 @@ Filter By Winners:
 </div>
 
 <script>
-function indexWinners()
-{
-	$('.games .game').each(function()
-	{
-		var winners = [];
-		$(this).find('.player.won').each(function() {
-			var player = $(this).attr('class').replace('player won ', '');
-			winners.push(player);
-		});
-		
-		
-		$(this).addClass(winners.join(' '));
-		console.log($(this).attr('class'));
-	});
-}
-
 $(function() {
 	$( "#winner-filter" ).buttonset();
-	indexWinners();
+	indexGameWinners();
+	$( "#winner-filter input" ).change(handleFilterWinners);
 });
-
-$( "#winner-filter input" ).change(function(e)
-	{
-		if ($(this).val() == 'all')
-		{
-			$('.games .game').toggle(true);
-			
-			// click on all clear everything
-			$("#winner-filter input:checked").each(function() {
-				$(this).attr('checked', false);
-			});
-			$( "#winner-filter" ).buttonset('refresh');
-			return;
-		}
-		else
-		{
-			// Uncheck all
-			$("#winner-filter input:checked").each(function() {
-				if ($(this).val() == 'all')
-					$(this).attr('checked', false);
-			});
-			$( "#winner-filter" ).buttonset('refresh');
-		}
-		
-		var values = [];
-		$("#winner-filter input:checked").each(function()
-		{	
-			values.push(this.value);
-		});
-		
-		if (values.length > 0 && values[0] == 'all')
-		{
-			$('.games .game').toggle(true);
-			return;
-		}
-		
-		$('.games .game').toggle(false);
-		for (var index in values)
-		{
-			var value = values[index];
-			var css = '.games .game .player.won.' + value; 
-			
-			// This is for non additive
-			//$(css).parents('.game').toggle(true);
-		}
-		
-		var css = '.games .game.' + values.join('.');
-		$(css).toggle(true);
-	}
-);
 </script>

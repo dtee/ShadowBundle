@@ -16,9 +16,8 @@
 	<div>
 		<h3>Player Stats: </h3>
 		{% for player in players %}
-			<div>
 			{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
-			</div>
+			<div class="clearfix" />
 		{% endfor %}
 	</div>
 	

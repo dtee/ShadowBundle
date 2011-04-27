@@ -39,15 +39,20 @@ class StatsProvider
 		{
 			foreach ($this->games as $game)
 			{
-				$factions = $game->getPlayedFactions();
-				foreach ($factions as $factionName => $isWin)
+				$players = $game->getPlayers();
+				foreach ($players as $player)
 				{
+					$factionName = $player->getChar()->getFaction();
 					$faction = $this->getFaction($factionName);
 					$faction->totalPlayed++;
 					
-					if ($isWin)
-					{
+					if ($player->isWin) {
 						$faction->totalWin++;
+					}
+					
+					if ($player->isAlive)
+					{
+						$faction->totalAlive++;
 					}
 				}
 			}
@@ -121,6 +126,7 @@ class StatsProvider
 					$char->factions[$faction]->totalPlayed ++;
 					if ($player->isAlive) {
 						$char->totalAlive++;
+						$char->factions[$faction]->totalAlive ++;
 					}
 					
 					$char->games[] = $game;
