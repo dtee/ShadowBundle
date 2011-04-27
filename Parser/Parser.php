@@ -19,7 +19,7 @@ class Parser
 				$filename = '/../Resources/chars.yml';
 				$filename = __DIR__ . $filename;
 			}
-			
+
 			$charsConfig = Yaml::load($filename);
 			$chars = array();
 			foreach ($charsConfig as $faction => $types)
@@ -34,16 +34,16 @@ class Parser
 					}
 				}
 			}
-			
+
 			self::$chars = $chars;
 		}
-		
+
 		return self::$chars;
 	}
-	
+
 	/**
 	 * Parse the csv and return array of games
-	 * 
+	 *
 	 * @param String $filename
 	 * @return array Odl\ShadowBundle\Documents\Game
 	 */
@@ -54,12 +54,12 @@ class Parser
 			$filename = '/../Resources/stats.csv';
 			$filename = __DIR__ . $filename;
 		}
-		
+
 		// Load csv file and read stats
 		$csvString = file_get_contents($filename);
 		$data = str_getcsv($csvString, "\n");
 		$chars = self::loadChars();
-		
+
 		$useableData = array();
 		$rowHeader = null;
 		$games = array();
@@ -68,7 +68,6 @@ class Parser
 			$row = str_getcsv($row, ",");
 			if ($row[0])
 			{
-				unset($row[19]);
 				if (!$rowHeader)
 				{
 					$rowHeader = $row;
@@ -87,29 +86,29 @@ class Parser
 							{
 								$charname = 'ultrasoul';
 							}
-							
+
 							if (!isset($chars[$charname]))
 							{
-								throw new \Exception("{$charname} does not exists");	
+								throw new \Exception("{$charname} does not exists");
 							}
-							
+
 							$username = $rowHeader[$index];
 							$player = new PlayerCharacter($username, $charname);
-							
+
 							$player->isAlive = (strpos($charInfo,'alive') > 0);
 							$player->isWin = (strpos($charInfo, 'won') > 0);
 							$player->isLastDeath = (strpos($charInfo, 'last') > 0);
 							$player->char = $chars[$charname];
-							
+
 							$game->addPlayer($player);
 						}
 					}
-					
+
 					$games[] = $game;
 				}
 			}
 		}
-		
+
 		return $games;
 	}
 }
