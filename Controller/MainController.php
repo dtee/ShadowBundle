@@ -154,8 +154,11 @@ extends Controller
 	public function getStatsOverTime(array $games, array $allPlayers)
 	{
 		$incrementGames = array();
-		$series = array();
+		$seriesHash = array();
 		$gameCount = array();
+		$statsType = array(
+			'ChanceToWin', 'RelativeChanceToWin', 
+			'ChanceToLive', 'RelativeChanceToLive');
 
 		foreach ($games as $index => $game)
 		{
@@ -165,7 +168,7 @@ extends Controller
 
 			// Init defaults
 
-			// Keep track of totla games played
+			// Keep track of total games played
 			foreach ($game->getPlayers() as $player)
 			{
 				$playerName = $player->getUsername();
@@ -176,23 +179,41 @@ extends Controller
 
 				$gameCount[$playerName] += 1;
 				$playerStats = $playersStats[$playerName];
-				$series[$playerName][] = array($index + 1, $playerStats->getChanceToWin());
+				$seriesHash['Chance To Win'][$playerName][] = array($index + 1, $playerStats->getChanceToWin());
+				$seriesHash['Chance To Live'][$playerName][] = array($index + 1, $playerStats->getChanceToLive());
+				
+				foreach ($playerStats->factions as $factionStats)
+				{
+					$factionName = ucfirst($factionStats->name);
+					$seriesHash['Chance To Win - ' . $factionName][$playerName][] = array($index + 1, $factionStats->getChanceToWin());
+					$seriesHash['Relative Chance To Win - ' . $factionName][$playerName][] = array($index + 1, $factionStats->getRelativeChanceToWin());
+				}
 			}
 		}
 
+		// Drop low game count players + sort by names
 		foreach ($gameCount as $playerName => $total)
 		{
 			if ($total < 8)
 			{
-				unset($series[$playerName]);
+				foreach ($seriesHash as $key => $type)
+				{
+					// Remove players with less than 8 games
+					unset($seriesHash[$key][$playerName]);
+					ksort($seriesHash[$key]);
+				}
 			}
 		}
 
-		$categories= range(1, count($games));
-
 		$retVal = array();
-		$retVal['chance_to_win'] = new Chart('Win Rate', $series, $categories);
-
+		$categories= range(1, count($games));
+		foreach ($seriesHash as $title => $series)
+		{
+			$key = str_replace(' ', '_', $title);
+			$key = strtolower($key);
+			$retVal[$key] = new Chart($title, $series, $categories);
+		}
+		
 		return $retVal;
 	}
 }

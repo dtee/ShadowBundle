@@ -40,6 +40,14 @@ class Chart {
 	{
 		return $this->title;
 	}
+	
+	public function getId()
+	{
+		$key = str_replace(' ', '_', $this->title);
+		$key = strtolower($key);
+		
+		return $key;
+	}
 
 	/**
 	 * @return the $subTitle
@@ -111,6 +119,40 @@ class Chart {
 	public function setOptions($options)
 	{
 		$this->options = $options;
+	}
+	
+	public function getChartOptions()
+	{
+		$options = array(
+			'chart' => array(
+				'renderTo' => $this->getId(),
+				'defaultSeriesType' => 'spline'
+			),
+			'title' => array('text' => $this->getTitle()),
+			'xAxis' => array(
+				'categories' => $this->getCategories(),
+				'title' => 'Game #'
+			),
+			'yAxis' => array('title' => array('text' => 'Rate')),
+			'tooltip' => array('enabled' => false),
+			'legend' => array(
+				'layout' => 'vertical',
+				'align' => 'right',
+				'verticalAlign' => 'top',
+				'x' => -10,
+				'y' => 100,
+				'borderWidth' => 0
+			),
+			'plotOptions' => array (
+				'line' => array(
+					'dataLabels' => array('enabled' => true),
+					'enableMouseTracking' => false
+				)
+			),
+			'series' => $this->getSeries()
+		);
+		
+		return $options;
 	}
 
 }
