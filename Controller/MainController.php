@@ -157,8 +157,14 @@ extends Controller
 		$seriesHash = array();
 		$gameCount = array();
 		$statsType = array(
-			'ChanceToWin', 'RelativeChanceToWin', 
+			'ChanceToWin', 'RelativeChanceToWin',
 			'ChanceToLive', 'RelativeChanceToLive');
+
+		$symbols = array(
+			'shadow'=> 'red',
+			'hunter' => 'green',
+			'neutral' => 'gray'
+		);
 
 		foreach ($games as $index => $game)
 		{
@@ -172,6 +178,9 @@ extends Controller
 			foreach ($game->getPlayers() as $player)
 			{
 				$playerName = $player->getUsername();
+				$faction = $player->getChar()->getFaction();
+				$factionColor = $symbols[$faction];
+				
 				if (!isset($gameCount[$playerName]))
 				{
 					$gameCount[$playerName] = 0;
@@ -179,14 +188,28 @@ extends Controller
 
 				$gameCount[$playerName] += 1;
 				$playerStats = $playersStats[$playerName];
-				$seriesHash['Chance To Win'][$playerName][] = array($index + 1, $playerStats->getChanceToWin());
-				$seriesHash['Chance To Live'][$playerName][] = array($index + 1, $playerStats->getChanceToLive());
-				
+				$seriesHash['Chance To Win'][$playerName][] = array(
+					'x' => $index,
+					'y' => $playerStats->getChanceToWin(),
+					'factionColor' => $factionColor);
+
+				$seriesHash['Chance To Live'][$playerName][] = array(
+					'x' => $index,
+					'y' => $playerStats->getChanceToLive(),
+					'factionColor' => $factionColor);
+
 				foreach ($playerStats->factions as $factionStats)
 				{
 					$factionName = ucfirst($factionStats->name);
-					$seriesHash['Chance To Win - ' . $factionName][$playerName][] = array($index + 1, $factionStats->getChanceToWin());
-					$seriesHash['Relative Chance To Win - ' . $factionName][$playerName][] = array($index + 1, $factionStats->getRelativeChanceToWin());
+					$seriesHash['Chance To Win - ' . $factionName][$playerName][] = array(
+						'x' => $index,
+						'y' => $factionStats->getChanceToWin(),
+						'factionColor' => $factionColor);
+
+					$seriesHash['Relative Chance To Win - ' . $factionName][$playerName][] = array(
+						'x' => $index,
+						'y' => $factionStats->getRelativeChanceToWin(),
+						'factionColor' => $factionColor);
 				}
 			}
 		}
@@ -194,7 +217,7 @@ extends Controller
 		// Drop low game count players + sort by names
 		foreach ($gameCount as $playerName => $total)
 		{
-			if ($total < 8)
+			if ($total < 7)
 			{
 				foreach ($seriesHash as $key => $type)
 				{
@@ -213,7 +236,7 @@ extends Controller
 			$key = strtolower($key);
 			$retVal[$key] = new Chart($title, $series, $categories);
 		}
-		
+
 		return $retVal;
 	}
 }

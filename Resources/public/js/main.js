@@ -12,9 +12,24 @@ function indexGameWinners()
 	});
 }
 
-function chart(player) {
+function percentageFormatter() {
+	var html = '';
+	for (var index in this.points)
+	{
+		var point = this.points[index];
+		var color = point.series.color;
+		if (point.point.factionColor)
+		{
+			color = point.point.factionColor;
+		}
+		
+		html += '<strong style="color:' + color +';font-weight: bold;display:inline-block;width: 60px;">'+ point.series.name +':</strong>'+
+				point.x +' - '+ point.y +'%<br/>';
+	}
 	
+    return html;
 }
+
 
 function handleFilterWinners(e) {
 	if ($(this).val() == 'all')

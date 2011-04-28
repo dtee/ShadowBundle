@@ -28,7 +28,14 @@
 			$( "#tabs" ).tabs();
 			
 			{% for chart in charts %}
-				chart = new Highcharts.Chart({{ chart.getChartOptions() | json_encode | raw }});
+				var options = {{ chart.getChartOptions() | json_encode | raw }};
+				options.tooltip.formatter = percentageFormatter;
+				options.yAxis.labels = {};
+				options.yAxis.labels.formatter = function() {
+					return this.value + '%';
+				};
+				
+				chart = new Highcharts.Chart(options);
 			{% endfor %}
 		});
 	</script>

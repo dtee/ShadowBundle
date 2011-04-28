@@ -40,12 +40,12 @@ class Chart {
 	{
 		return $this->title;
 	}
-	
+
 	public function getId()
 	{
 		$key = str_replace(' ', '_', $this->title);
 		$key = strtolower($key);
-		
+
 		return $key;
 	}
 
@@ -120,7 +120,7 @@ class Chart {
 	{
 		$this->options = $options;
 	}
-	
+
 	public function getChartOptions()
 	{
 		$options = array(
@@ -134,7 +134,12 @@ class Chart {
 				'title' => 'Game #'
 			),
 			'yAxis' => array('title' => array('text' => 'Rate')),
-			'tooltip' => array('enabled' => false),
+			'tooltip' => array(
+				'enabled' => true,
+				'crosshairs' => true,
+				'shared' => true,
+				//'formatter' => null,
+			),
 			'legend' => array(
 				'layout' => 'vertical',
 				'align' => 'right',
@@ -147,11 +152,22 @@ class Chart {
 				'line' => array(
 					'dataLabels' => array('enabled' => true),
 					'enableMouseTracking' => false
+				),
+				'spline' => array(
+					'marker' => array(
+						'enabled' => true,
+						'radius' => 4,
+						'lineColor' => '#666666',
+						'lineWidth' => 1
+					)
 				)
 			),
-			'series' => $this->getSeries()
+			'series' => $this->getSeries(),
+			'credits' => array(
+				'enabled' => false
+			)
 		);
-		
+
 		return $options;
 	}
 
