@@ -1,10 +1,17 @@
 <?php
 namespace Odl\ShadowBundle\Stats;
 
+/**
+/** @mongodb:EmbeddedDocument
+ */
 class PlayerFaction
 	extends Faction
 {
+	/**
+	 * @mongodb:collection
+	 */
 	public $overAll;
+
 	public function __construct($name, Faction $overAll)
 	{
 		$this->name = $name;

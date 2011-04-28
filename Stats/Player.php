@@ -1,12 +1,25 @@
 <?php
 namespace Odl\ShadowBundle\Stats;
 
+/**
+ * @mongodb:Document(db="shadow_hunters", collection="stats_player")
+ */
 class Player
 	extends Stats
 {
-	public $totalAlive = 0;
+	/**
+	 * @mongodb:collection
+	 */
 	public $factions;
+
+	/**
+	 * @mongodb:collection
+	 */
 	public $games;
+
+	/**
+	 * @mongodb:String
+	 */
 	public $class = "player";
 
 	public function __construct($name, array $factionStats)

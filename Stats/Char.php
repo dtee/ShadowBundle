@@ -1,9 +1,14 @@
 <?php
 namespace Odl\ShadowBundle\Stats;
 
+/**
+ * @mongodb:Document(db="shadow_hunters", collection="stats_char")
+ */
 class Char
 	extends Stats
 {
-	public $totalAlive = 0;
+	/**
+	 * @mongodb:String
+	 */
 	public $class = 'char';
 }
