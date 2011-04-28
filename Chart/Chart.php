@@ -14,7 +14,7 @@ class Chart {
 		),
 	);
 
-	public function __construct($title, array $data)
+	public function __construct($title, array $data, array $categories)
 	{
 		if (empty($data))
 		{
@@ -22,6 +22,7 @@ class Chart {
 		}
 
 		$this->title = $title;
+		$this->categories = $categories;
 
 		foreach ($data as $key => $values)
 		{
@@ -29,11 +30,6 @@ class Chart {
 			$serie['name'] = $key;
 			$serie['data'] = $values;
 			$this->series[] = $serie;
-
-			if (!$this->categories)
-			{
-				$this->categories = array_keys($values);
-			}
 		}
 	}
 

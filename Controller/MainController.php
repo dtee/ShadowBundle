@@ -11,7 +11,7 @@ use Odl\ShadowBundle\Parser\Parser;
 use Odl\ShadowBundle\Documents\Game;
 
 class MainController
-	extends Controller
+extends Controller
 {
 	protected $games;
 	protected $chars;
@@ -98,8 +98,8 @@ class MainController
 
 		$game = current($this->games);
 		$form = $formFactory->createBuilder('form', $game)
-					->add('playTime', 'date')
-					->getForm();
+		->add('playTime', 'date')
+		->getForm();
 
 		return array(
 			'games' => $this->games,
@@ -161,35 +161,22 @@ class MainController
 		{
 			$incrementGames[] = $game;
 			$statProvider = new StatsProvider($incrementGames);
-			$players = $statProvider->getPlayerStats();
+			$playersStats = $statProvider->getPlayerStats();
 
 			// Init defaults
-			foreach ($allPlayers as $player)
-			{
-				if ($index > 0)
-				{
-					$series[$player->name][$index] = $series[$player->name][$index- 1];
-				}
-				else
-				{
-					$series[$player->name][$index] = 0;
-				}
-			}
 
 			// Keep track of totla games played
 			foreach ($game->getPlayers() as $player)
 			{
-				if (!isset($gameCount[$player->getUsername()]))
+				$playerName = $player->getUsername();
+				if (!isset($gameCount[$playerName]))
 				{
-					$gameCount[$player->getUsername()] = 0;
+					$gameCount[$playerName] = 0;
 				}
 
-				$gameCount[$player->getUsername()] += 1;
-			}
-
-			foreach ($players as $player)
-			{
-				$series[$player->name][$index] = $player->getChanceToWin();
+				$gameCount[$playerName] += 1;
+				$playerStats = $playersStats[$playerName];
+				$series[$playerName][] = array($index + 1, $playerStats->getChanceToWin());
 			}
 		}
 
@@ -201,8 +188,10 @@ class MainController
 			}
 		}
 
+		$categories= range(1, count($games));
+
 		$retVal = array();
-		$retVal['chance_to_win'] = new Chart('Win Rate', $series);
+		$retVal['chance_to_win'] = new Chart('Win Rate', $series, $categories);
 
 		return $retVal;
 	}
