@@ -6,6 +6,9 @@
 
 {% block content %}
 	<h3>All Players </h3>
+	
+	<div id="container" style="width: 800px; height: 600px; margin: 0 auto"></div> 
+	
 	{% for player in players %}
 		<div>
 		{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
@@ -13,4 +16,58 @@
 	{% endfor %}
 	
 	<div class="clearfix"/>
+	{% set chart = charts.chance_to_win %}
+	<script>
+		var chart;
+			$(document).ready(function() {
+				chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'container',
+						defaultSeriesType: 'spline'
+					},
+					title: {
+						text: '{{ chart.getTitle() }}'
+					},
+					subtitle: {
+						text: ''
+					},
+					xAxis: {
+						categories: {{ chart.getCategories() | json_encode | raw }},
+						title: {
+							text: 'Number of games'
+						}
+					},
+					yAxis: {
+						title: {
+							text: 'Win %'
+						}
+					},
+					tooltip: {
+						enabled: false,
+						formatter: function() {
+						
+						}
+					},
+					legend: {
+						layout: 'vertical',
+						align: 'right',
+						verticalAlign: 'top',
+						x: -10,
+						y: 100,
+						borderWidth: 0
+					},
+					plotOptions: {
+						line: {
+							dataLabels: {
+								enabled: true
+							},
+							enableMouseTracking: false
+						}
+					},
+					series: {{ chart.getSeries() | json_encode | raw}}
+				});
+				
+				
+			});
+	</script>
 {% endblock %}

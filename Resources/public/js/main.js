@@ -12,6 +12,10 @@ function indexGameWinners()
 	});
 }
 
+function chart(player) {
+	
+}
+
 function handleFilterWinners(e) {
 	if ($(this).val() == 'all')
 	{

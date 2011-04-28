@@ -6,5 +6,6 @@
 
 {% block content %}
 	<h3>All Games </h3>
+	{{ form_widget(formView) }}
 	{% include 'ShadowBundle:Main:_games.html.twig' with {'games': games, 'players': players} %}
 {% endblock %}
