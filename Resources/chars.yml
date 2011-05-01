@@ -1,14 +1,28 @@
 neutral:
   original:
-    allie: 8
-    bob: 10
+    allie: 
+      hit_point: 8
+      win: You’re not dead when the game is over
+      special: "Mother’s Love: You can fully heal your damage once during the game"
+    bob: 
+      hit_point: 10
+      win: "You have 5 or more Equipment cards."
+      special: "Robbery: If your attack kills a character, you take all the Equipment cards that character had."
     charles: 11
     daniel: 14
   expend:
-    agnes: 8
+    agnes: 
+      hit_point: 8
+      win: "The player to your immediate right wins."
+      special: "Cappriccio: Can only be used at the start of your turn. Changes your win condition to, “The player to your immediate left wins.”"
     bryan: 10
     catherine: 11
     david: 14
+  online: 
+    angel: 8
+    belladonna: 10
+    cassandra: 11
+    despair: 13
 
 hunter:
   original:
@@ -19,6 +33,10 @@ hunter:
     emi: 10
     franklin: 11
     george: 14
+  online:
+    evan: 10
+    oconnell: 12
+    ginger: 14
 
 shadow:
   original:
@@ -29,3 +47,7 @@ shadow:
     ultrasoul: 10
     valkyrie: 13
     wight: 14
+  online:
+    unseen: 11
+    vengeful: 13
+    witch: 14

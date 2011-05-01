@@ -7,6 +7,7 @@ Shadows Hunters is an addicting board game that we've been playing duing lunch t
 For more information: 
 http://boardgamegeek.com/boardgame/24068/shadow-hunters
 http://www.zmangames.com/boardgames/shadow_hunters.htm
+http://boardgamegeek.com/forums/thing/24068/shadow-hunters
 
 Contributing
 ------------

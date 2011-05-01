@@ -9,39 +9,38 @@ class PlayerCharacter
 	/**
 	 * @mongodb:String
 	 * @mongodb:Index
-	 * @assert:NotBlank
+	 * @assert:NotBlank()
 	 */
 	protected $userId;
 
 	/**
 	 * @mongodb:String
 	 * @mongodb:Index
-	 * @assert:NotBlank
+	 * @assert:NotBlank()
+	 * @assert:MinLength(3)
 	 */
 	protected $username;
 
 	/**
 	 * @mongodb:String
 	 * @mongodb:Index
-	 * @assert:NotBlank
+	 * @assert:NotBlank()
+	 * @assert:MinLength(3)
 	 */
 	protected $character;
 
 	/**
 	 * @mongodb:boolean
-	 * @assert:NotBlank
 	 */
 	public $isWin;
 
 	/**
 	 * @mongodb:boolean
-	 * @assert:NotBlank
 	 */
 	public $isAlive;
 
 	/**
 	 * @mongodb:boolean
-	 * @assert:NotBlank
 	 */
 	public $isLastDeath;
 
@@ -61,15 +60,21 @@ class PlayerCharacter
 		return $this->username;
 	}
 
-	public function getCharName()
+	public function setUsername($username)
 	{
-		return $this->character;
+		$this->username = $username;
 	}
 
 	public function getCharacter()
 	{
-		return $this->char;
+		return $this->character;
 	}
+
+	public function setCharacter($character)
+	{
+		$this->character = $character;
+	}
+
 	/**
 	 * @return the $userId
 	 */

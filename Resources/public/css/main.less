@@ -26,6 +26,50 @@
 	margin: 0px 10px 20px 10px;
 }
 
+.field {
+	.error {
+		padding: 0.3em .8em;
+		background: transparent;
+	}
+	
+	label {
+		width: 90px;
+		display: inline-block;
+	}
+	
+	&.players {
+		width: auto;
+		height: auto;
+		padding: 0px;
+	}
+		
+	&.playercharacter {
+		> label {
+			width: auto;
+			@header();
+		}
+		
+		display: block;
+		border: @border;
+		@border-radius(0px; 10px; 10px; 0px);
+		width: 255px;
+		padding: 10px;
+		margin: 10px 0px 10px 10px;
+		float: left;
+		min-height: 170px;
+	}
+	
+	&.date {
+		div {
+			display: inline-block;
+		}
+		
+		div.hide {
+			display: none;
+		}
+	}
+}
+
 .stats {
 	&.player {
 		width: 30px;

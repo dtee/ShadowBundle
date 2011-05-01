@@ -30,6 +30,40 @@ function percentageFormatter() {
     return html;
 }
 
+function addNewPlayer(element) {
+	// Clone self
+	var container = $(element).parents('.playercharacter').clone(true);
+	$(element).parents('#form_players').append(container);
+	
+	// Add Elements
+	var template = $('#player_template');
+	var templateHtml = template.html();
+	var count = $('#form_players > div').length;
+	templateHtml = templateHtml.replace(/index/gi, 'player' + count);
+	
+	var newGameDiv = $(templateHtml);
+	$(element).parents('.playercharacter').html(newGameDiv);
+	
+	newGameDiv.find('.text.field input').each(function() {
+		var availableTags = charNames;
+		if ($(this).parent().hasClass('username'))
+			availableTags = playerNames;
+			
+		$(this).autocomplete({
+			source: availableTags,
+			autoFocus: true,
+			delay: 0
+		});
+		
+		// For character, we should show more description
+		/*._renderItem = function( ul, item ) {
+			return $( "<li></li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + "<br>" + item.desc + "</a>" )
+				.appendTo( ul );
+		};*/
+	});
+}
 
 function handleFilterWinners(e) {
 	if ($(this).val() == 'all')

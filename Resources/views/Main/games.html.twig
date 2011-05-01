@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-	<h3>All Games </h3>
-	{{ form_widget(formView) }}
+	<h3>All Games (<a href="{{ path('odl_shadow_main_gamecreate') }}">Add</a>)</h3>
+	
 	{% include 'ShadowBundle:Main:_games.html.twig' with {'games': games, 'players': players} %}
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends "TwigBundle:Form:div_layout.html.twig" %}
+
+{% block form_widget %}
+{% spaceless %}
+    <div {{ block('attributes') }}>
+        {{ block('field_rows') }}
+        {{ form_rest(form) }}
+	
+		{% set formTypes = form.get('types') %}
+	    {% if formTypes.0 == 'collection' %}
+	    	<div class="playercharacter form field">
+	    		<label>Add new player</label>
+	    		<div><a href="javascript:void(0)" onclick="addNewPlayer(this)"> Add New???</a></div>
+	    	</div>
+		{% endif %}
+    </div>
+{% endspaceless %}
+{% endblock form_widget %}
+
+{% block field_row %}
+	{% spaceless %}
+		{% set formTypes = form.get('types') %}
+		{% set formName = form.get('form_name') %}
+		
+	    <div class="{{ formTypes | join(" ") }} {{ formName }}" id="{{ form.get('id') }}-container">
+	        {# TODO: would be nice to rename this variable to "field" #}
+	        {{ form_label(form) }}
+	        {{ form_widget(form) }}
+	        {{ form_errors(form) }}
+	        <div class="error hide"></div>
+	    </div>
+	{% endspaceless %}
+{% endblock field_row %}
+
+{% block field_label %}
+	{% spaceless %}
+	    <label for="{{ id }}" class="">{{ label|trans }}</label>
+	{% endspaceless %}
+{% endblock field_label %}

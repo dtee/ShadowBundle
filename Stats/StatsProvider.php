@@ -82,7 +82,7 @@ class StatsProvider
 				$players = $game->getPlayers();
 				foreach ($players as $player)
 				{
-					$char = $this->getChar($player->getCharName());
+					$char = $this->getChar($player->getCharacter());
 					$char->totalPlayed ++;
 					if ($player->isAlive) {
 						$char->totalAlive++;

@@ -26,18 +26,27 @@ class Parser
 			{
 				foreach ($types as $type => $charInfos)
 				{
-					foreach ($charInfos as $name => $hitPoint)
+					foreach ($charInfos as $name => $info)
 					{
+						$hitPoint = $info;
+						if (is_array($info))
+						{
+							$hitPoint = $info['hit_point'];
+						}
+						
 						$char = new Character($name, $faction, $hitPoint);
 						$char->type = $type;
 						$chars[$name] = $char;
 					}
 				}
+				
+				ksort($chars);
 			}
 
 			self::$chars = $chars;
 		}
 
+		//ve($chars);
 		return self::$chars;
 	}
 
@@ -51,7 +60,7 @@ class Parser
 	{
 		if (!$filename)
 		{
-			$filename = '/../Resources/stats.csv';
+			$filename = '/../Resources/stats-1.csv';
 			$filename = __DIR__ . $filename;
 		}
 
@@ -63,6 +72,7 @@ class Parser
 		$useableData = array();
 		$rowHeader = null;
 		$games = array();
+		$gameCount = 0;
 		foreach($data as $row)
 		{
 			$row = str_getcsv($row, ",");
@@ -75,7 +85,10 @@ class Parser
 				else
 				{
 					$date = new \DateTime($row[0]);
-					$game = new Game($date);
+					$game = new Game();
+					$game->setPlayTime($date);
+					$game->setName("Game " . ++$gameCount);
+					
 					foreach ($row as $index => $charInfo)
 					{
 						if ($charInfo && $index != 0)

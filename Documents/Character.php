@@ -39,16 +39,12 @@ class Character
 	 * @mongodb:String
 	 */
 	protected $ability;
-
+	
 	/**
 	 * @mongodb:String
 	 */
-	public $type;
-
-	public $totalPlayed = 0;
-	public $totalWin = 0;
-	public $totalAlive = 0;
-
+	protected $winCondition;
+	
 	public function __construct($name, $faction, $hitPoint)
 	{
 		$this->name = $name;
