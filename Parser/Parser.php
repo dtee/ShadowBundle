@@ -46,7 +46,6 @@ class Parser
 			self::$chars = $chars;
 		}
 
-		//ve($chars);
 		return self::$chars;
 	}
 

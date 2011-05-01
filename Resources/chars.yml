@@ -1,20 +1,11 @@
 neutral:
   original:
-    allie: 
-      hit_point: 8
-      win: You’re not dead when the game is over
-      special: "Mother’s Love: You can fully heal your damage once during the game"
-    bob: 
-      hit_point: 10
-      win: "You have 5 or more Equipment cards."
-      special: "Robbery: If your attack kills a character, you take all the Equipment cards that character had."
+    allie: 8
+    bob: 10
     charles: 11
     daniel: 14
   expend:
-    agnes: 
-      hit_point: 8
-      win: "The player to your immediate right wins."
-      special: "Cappriccio: Can only be used at the start of your turn. Changes your win condition to, “The player to your immediate left wins.”"
+    agnes: 8
     bryan: 10
     catherine: 11
     david: 14
