@@ -41,25 +41,9 @@ class MainController
 	 */
 	public function indexAction()
 	{
-		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-
-		foreach ($this->games as $games)
-		{
-			$dm->presist($game);
-		}
-		
-		foreach ($this->chars as $char)
-		{
-			$dm->presist($char);
-		}
-		
-		
-		$charts = $this->getStatsOverTime($this->games, $this->players);
-
 		return array(
 			'games' => $this->games,
 			'factions' => $this->factions,
-			'charts' => $charts,
 			'players' => $this->players,
 			'chars' => $this->chars,
 			'charsStats' => $this->charsStats
@@ -72,7 +56,62 @@ class MainController
 	 */
 	public function charAction($charName)
 	{
+		$formFactory = $this->get('form.factory');
+		$request = $this->get('request');
+		$char = $this->chars[$charName];
+		$factionChoices = array_keys($this->factions);
+		$factionChoices = array_combine($factionChoices, $factionChoices);
+		
+		$form = $formFactory->createBuilder('form', $char)
+			->add('hitPoint', 'text')
+			->add('faction', 'choice', array(
+				'choices' => $factionChoices
+			))
+			->add('ability', 'textarea')
+			->add('winCondition', 'textarea')
+			->getForm();
+			
+		$content = array();
+        $response = new Response();
+		if ($request->getMethod() == 'POST') {
+			$form->bindRequest($request);
 
+			if ($form->isValid()) {
+				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
+				$dm->persist($char);
+				$dm->flush();
+				
+				$retVal = array('success' => 'Saved.');
+				$content = json_encode($retVal);
+			}
+		}
+		
+		$params = array(
+			'char' => $char,
+			'charStats' => $this->charsStats[$charName],
+			'formView' => $form->createView(),
+		
+			'games' => $this->games,
+			'factions' => $this->factions,
+			'players' => $this->players,
+			'chars' => $this->chars,
+			'charsStats' => $this->charsStats,
+		);
+		
+		if ($request->isXmlHttpRequest())
+		{
+        	$errorsProvider = $this->get('form.errors');
+		    $retVal['error'] = $errorsProvider->getErrors($form);
+		    $content = json_encode($retVal);
+		}
+		else
+		{
+			$content = $this->renderView(
+				'ShadowBundle:Main:char.html.twig', $params);
+		}
+
+		$response->setContent($content);
+		return $response;
 	}
 
 	/**

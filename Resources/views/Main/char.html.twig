@@ -1,0 +1,27 @@
+{% extends "ShadowBundle::layout.html.twig" %}
+{% form_theme formView "ShadowBundle:Form:fields_game.html.twig" %}
+
+{% block title %}
+	Character: {{ char.name }}
+{% endblock %}
+
+{% block content %}
+	<h3>Character: {{ char.name }}</h3>
+	
+	<div class="char">
+		{% include 'ShadowBundle:Main:_char.html.twig' with {'char': charStats} %}
+	</div>
+	
+	<form id="char-form">
+		<h3>Edit Character</h3>
+		<div class="clearfix">
+			{{ form_widget(formView) }}
+		</div>
+		
+		<div class="buttons">
+			<input type="submit" value="Submit" />
+			<input type="button" value="Save" onclick="$('#char-form').ajaxForm()"/>
+		</div>
+	</form>
+	
+{% endblock %}
