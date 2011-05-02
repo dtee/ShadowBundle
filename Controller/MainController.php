@@ -26,7 +26,7 @@ class MainController
 		// Database is not ready at this point
 		// $dm = $this->get('doctrine.odm.mongodb.default_document_manager');
 		
-		$this->games = Parser::loadCSVFile(null);
+		$this->games = Parser::loadGamesFromCSV(null);
 		$this->chars = Parser::loadChars();
 
 		$statProvider = new StatsProvider($this->games);

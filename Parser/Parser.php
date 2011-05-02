@@ -55,7 +55,7 @@ class Parser
 	 * @param String $filename
 	 * @return array Odl\ShadowBundle\Documents\Game
 	 */
-	public static function loadCSVFile($filename)
+	public static function loadGamesFromCSV($filename = null)
 	{
 		if (!$filename)
 		{
