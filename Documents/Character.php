@@ -18,12 +18,6 @@ class Character
 
 	/**
 	 * @mongodb:int
-	 * @assert:Min(8)
-	 * @assert:Max(14)
-	 * @assert:Type( 
-	 * 		type = "numeric",
-	 * 		message = "Hit point must be a number"
-	 * )
 	 */
 	protected $hitPoint;
 
@@ -31,7 +25,7 @@ class Character
 	 * @mongodb:String
 	 * @assert:Choice(
      *     choices = { "shadow", "hunter", "neutral"},
-     *     message = "Choose a valid faction"
+     *     message = "Choose a valid faction."
      * )
 	 */
 	protected $faction;	// shadow/hunter/netural
