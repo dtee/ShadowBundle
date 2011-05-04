@@ -76,7 +76,21 @@ class MainController
 	 */
 	public function indexAction()
 	{
-		$charts = $this->getStatsOverTime($this->games, $this->players);
+		$key = 'games_' . count($this->games);
+		if (function_exists('apc_fetch'))
+		{
+			$cache = \Doctrine\Common\Cache\ApcCach();
+		}
+		else
+		{
+			$cache = new \Doctrine\Common\Cache\ArrayCache();
+		}
+		
+		if (!$charts = $cache->fetch($key))
+		{
+			$charts = $this->getStatsOverTime($this->games, $this->players);
+			$cache->save($key, $charts);
+		}
 		
 		return array(
 			'games' => $this->games,
