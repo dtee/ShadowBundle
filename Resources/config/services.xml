@@ -8,7 +8,7 @@
     	<!-- Register asset extension so that user could use jumbo filter -->
         
         <!-- Validators -->
-        <service id="validator.unique.character" class="Odl\ShadowBundle\Validator\Constraint\CharacterValidator">
+        <service id="validator.unique.character" class="Odl\ShadowBundle\Validator\Constraints\CharacterValidator">
 		    <argument type="service" id="doctrine.odm.mongodb.default_document_manager" />
 		    <tag name="validator.constraint_validator" alias="sh_character" />
 		</service>

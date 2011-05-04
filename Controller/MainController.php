@@ -152,24 +152,6 @@ class MainController
 	 */
 	public function gameCreateAction()
 	{
-		$game = new Game(new \DateTime());
-		// Do we know how many to start with?
-		foreach (array('test') as $name)
-		{
-			// the following generates form name with spaces
-			$p = new PlayerCharacter('dtee', 'blahblah');
-			$game->addPlayer($p);
-
-			$validator = $this->get('validator');
-			$result = $validator->validate($p);
-			ve($result);
-		}
-
-
-		$validator = $this->get('validator');
-		$result = $validator->validate($game);
-		ve($result);
-
 		$formFactory = $this->get('form.factory');
 		$request = $this->get('request');
 		$form = $request->get("form");

@@ -19,7 +19,8 @@ class PlayerCharacter
 	 * @mongodb:Index
 	 * @assert:NotBlank()
 	 * @assert:MinLength(3)
-	 * @assert:sh_character
+	 * 
+	 * @assertShadow:Character()
 	 */
 	protected $character;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Odl\ShadowBundle\Validator\Constraint;
+namespace Odl\ShadowBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
@@ -14,17 +14,21 @@ class CharacterValidator
 	protected $dm;
 
 	public function __construct(DocumentManager $dm) {
-		ve('am i hit??');
 		$this->dm = $dm;
 	}
 
 	public function isValid($value, Constraint $constraint)
     {
+    	if (!$value)
+    		return true;
+    		
     	$repository = $this->dm->getRepository('Odl\ShadowBundle\Documents\Character');
-
-    	$char = $repository->find($constraint->charname);
-        if ($char->count() == 0) {
-            $this->setMessage($constraint->message);
+    	$char = $repository->find($value);
+    	
+        if (!$char) {
+            $this->setMessage($constraint->message, array(
+            	'{{ charname }}' => $value
+            ));
             return false;
         }
 
