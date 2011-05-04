@@ -131,6 +131,7 @@ class Chart {
 			'title' => array('text' => $this->getTitle()),
 			'xAxis' => array(
 				'categories' => $this->getCategories(),
+				'maxZoom' => 10,
 				'title' => 'Game #'
 			),
 			'yAxis' => array('title' => array('text' => 'Rate')),

@@ -1,6 +1,8 @@
 <?php
 namespace Odl\ShadowBundle\Controller;
 
+use Odl\ShadowBundle\Documents\Character;
+
 use Odl\ShadowBundle\Documents\PlayerCharacter;
 use Odl\ShadowBundle\Form\PlayerCharacterType;
 use Odl\ShadowBundle\Chart\Chart;
@@ -25,7 +27,7 @@ class MainController
 	{
 		// Database is not ready at this point
 		// $dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-		
+
 		$this->games = Parser::loadGamesFromCSV(null);
 		$this->chars = Parser::loadChars();
 
@@ -61,7 +63,7 @@ class MainController
 		$char = $this->chars[$charName];
 		$factionChoices = array_keys($this->factions);
 		$factionChoices = array_combine($factionChoices, $factionChoices);
-		
+
 		$form = $formFactory->createBuilder('form', $char)
 			->add('hitPoint', 'text')
 			->add('faction', 'choice', array(
@@ -70,7 +72,7 @@ class MainController
 			->add('ability', 'textarea')
 			->add('winCondition', 'textarea')
 			->getForm();
-			
+
 		$content = array();
         $response = new Response();
 		if ($request->getMethod() == 'POST') {
@@ -80,24 +82,24 @@ class MainController
 				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
 				$dm->persist($char);
 				$dm->flush();
-				
+
 				$retVal = array('success' => 'Saved.');
 				$content = json_encode($retVal);
 			}
 		}
-		
+
 		$params = array(
 			'char' => $char,
 			'charStats' => $this->charsStats[$charName],
 			'formView' => $form->createView(),
-		
+
 			'games' => $this->games,
 			'factions' => $this->factions,
 			'players' => $this->players,
 			'chars' => $this->chars,
 			'charsStats' => $this->charsStats,
 		);
-		
+
 		if ($request->isXmlHttpRequest())
 		{
         	$errorsProvider = $this->get('form.errors');
@@ -150,17 +152,35 @@ class MainController
 	 */
 	public function gameCreateAction()
 	{
+		$game = new Game(new \DateTime());
+		// Do we know how many to start with?
+		foreach (array('test') as $name)
+		{
+			// the following generates form name with spaces
+			$p = new PlayerCharacter('dtee', 'blahblah');
+			$game->addPlayer($p);
+
+			$validator = $this->get('validator');
+			$result = $validator->validate($p);
+			ve($result);
+		}
+
+
+		$validator = $this->get('validator');
+		$result = $validator->validate($game);
+		ve($result);
+
 		$formFactory = $this->get('form.factory');
 		$request = $this->get('request');
 		$form = $request->get("form");
-		$totalPlayers = isset($form['players']) ? count($form['players']) : 1;
+		$players = isset($form['players']) ? $form['players'] : array();
 
 		$game = new Game(new \DateTime());
 		// Do we know how many to start with?
-		for ($index = 1; $index <= $totalPlayers; $index++)
+		foreach (array_keys($players) as $name)
 		{
 			// the following generates form name with spaces
-			$game->addPlayer(new PlayerCharacter('Player' . $index, ''));
+			$game->addPlayer(new PlayerCharacter($name));
 		}
 
 		$form = $formFactory->createBuilder('form', $game)

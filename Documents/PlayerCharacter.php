@@ -10,13 +10,6 @@ class PlayerCharacter
 	 * @mongodb:String
 	 * @mongodb:Index
 	 * @assert:NotBlank()
-	 */
-	protected $userId;
-
-	/**
-	 * @mongodb:String
-	 * @mongodb:Index
-	 * @assert:NotBlank()
 	 * @assert:MinLength(3)
 	 */
 	protected $username;
@@ -26,6 +19,7 @@ class PlayerCharacter
 	 * @mongodb:Index
 	 * @assert:NotBlank()
 	 * @assert:MinLength(3)
+	 * @assert:sh_character
 	 */
 	protected $character;
 
@@ -49,7 +43,7 @@ class PlayerCharacter
 	 */
 	public $char;
 
-	public function __construct($username, $character)
+	public function __construct($username = null, $character = null)
 	{
 		$this->username = $username;
 		$this->character = $character;

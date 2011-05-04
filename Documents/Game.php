@@ -34,7 +34,7 @@ class Game
 	/**
 	 * @var PlayerCharacter
 	 * @mongodb:EmbedMany(targetDocument="PlayerCharacter")
-	 * 
+	 *
 	 * assert:Type(type="Odl\ShadowBundle\Documents\PlayerCharacter", message="You have to pick at least one player")
 	 */
 	protected $players;
@@ -108,5 +108,55 @@ class Game
 		$this->name = $name;
 	}
 
+	/**
+	 * @assert:False(message = "Player much not appear more than once")
+	 */
+	public function isDuplicatePlayers()
+	{
+		$cache = array();
+		foreach ($this->getPlayers() as $player)
+		{
+			if (isset($cache[$player->getUsername()]))
+			{
+				return true;
+			}
 
+			$cache[$player->getUsername()] = 1;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @assert:False(message = "Character must not appear more than once")
+	 */
+	public function isDuplicateCharacters()
+	{
+		$cache = array();
+		foreach ($this->getPlayers() as $player)
+		{
+			if (isset($cache[$player->getCharacter()]))
+			{
+				return true;
+			}
+
+			$cache[$player->getCharacter()] = 1;
+		}
+
+		return false;
+	}
+
+	/**
+	 *
+	 */
+	public function isFactionBalanced() {
+		$factions = array();
+		foreach ($this->getPlayers() as $player)
+		{
+			$faction = $player->getFaction();
+			$cache[$faction][] = $player;
+		}
+
+		return count($cache['hunter']) == count($cache['shadow']);
+	}
 }

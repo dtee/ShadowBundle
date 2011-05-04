@@ -1,5 +1,5 @@
 <?php
-namespace Odl\AssetBundle\DependencyInjection;
+namespace Odl\ShadowBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -15,10 +15,5 @@ class ShadowExtension
         $loader->load('services.xml');
 
         // Lets set up
-    }
-
-    public function getAlias()
-    {
-        return 'odl_shadow';
     }
 }
