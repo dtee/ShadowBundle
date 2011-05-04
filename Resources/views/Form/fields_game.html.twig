@@ -24,7 +24,7 @@
 		
 	    <div class="{{ formTypes | join(" ") }} {{ formName }}" id="{{ form.get('id') }}-container">
 	        {# TODO: would be nice to rename this variable to "field" #}
-	        {{ form_label(form) }}
+	        {{ form_label(form) | raw }}
 	        {{ form_widget(form) }}
 	        {{ form_errors(form) }}
 	        <div class="error hide"></div>

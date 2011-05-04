@@ -2,7 +2,7 @@
 	({{ game.getPlayers() | length }} players)
 	
 	<span class="right">
-		<a href="javascript:void(0)" onclick="alert('implement me')">Edit</a>
+		<a href="{{ path('odl_shadow_main_gameedit', {'id': game.getId()}) }}">Edit</a>
 	</span>
 </h3>
 <div class="players">

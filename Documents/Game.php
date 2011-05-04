@@ -120,7 +120,7 @@ class Game
 			{
 				continue;
 			}
-			
+
 			if (isset($cache[$playerUsername]))
 			{
 				return true;
@@ -145,7 +145,7 @@ class Game
 			{
 				continue;
 			}
-			
+
 			if (isset($cache[$charname]))
 			{
 				return true;
@@ -165,18 +165,26 @@ class Game
 		foreach ($this->getPlayers() as $player)
 		{
 			$faction = $player->getFaction();
-			
+
 			if (!$faction) {
-				continue; 
+				continue;
 			}
-			
+
 			$cache[$faction][] = $player;
 		}
 
 		return count($cache['hunter']) == count($cache['shadow']);
 	}
-	
+
 	public function __toString(){
 		return $this->name;
 	}
+	/**
+	 * @return the $id
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
 }

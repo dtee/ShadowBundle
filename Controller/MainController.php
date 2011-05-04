@@ -23,38 +23,38 @@ class MainController
 		{
 			$props = array('games', 'chars', 'factions', 'players', 'charsStats');
 			$props = array_flip($props);
-			
+
 			if (!isset($props[$property]))
 			{
 				throw new \Exception("{$property} not found.");
 			}
-			
+
 			$this->loadFromDB();
 		}
-		
+
 		return $this->$property;
 	}
-	
+
 	protected function loadFromDB() {
 		$this->chars = array();
 		$this->games = array();
-		
+
 		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
 		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Character');
-   				
+
 		$all = $repository->findAll();
 		foreach ($all as $char)
 		{
 			$this->chars[$char->getName()] = $char;
 		}
-		
+
 		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
-   				
+
 		$all = $repository->findAll()->sort(array(
 			'playTime' => 'asc',
 			'name' => 'asc'
 		));
-		
+
 		foreach ($all as $game)
 		{
 			$this->games[$game->getName()] = $game;
@@ -63,7 +63,7 @@ class MainController
 				$player->char = $this->chars[$player->getCharacter()];
 			}
 		}
-		
+
 		$statProvider = new StatsProvider($this->games);
 		$this->factions = $statProvider->getFactionStats();
 		$this->charsStats = $statProvider->getCharacterStats();
@@ -85,13 +85,13 @@ class MainController
 		{
 			$cache = new \Doctrine\Common\Cache\ArrayCache();
 		}
-		
+
 		if (!$charts = $cache->fetch($key))
 		{
 			$charts = $this->getStatsOverTime($this->games, $this->players);
 			$cache->save($key, $charts);
 		}
-		
+
 		return array(
 			'games' => $this->games,
 			'factions' => $this->factions,
@@ -197,15 +197,32 @@ class MainController
 	}
 
 	/**
+	 * @Route("/game-edit/{id}");
+	 */
+	public function gameEditAction($id)
+	{
+		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
+		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
+
+		$game = $repository->find($id);
+		if ($game)
+		{
+			return $this->handleGameEditCreate($game);
+		}
+		else
+		{
+			throw new Exception('Game ID: {$id} not found.');
+		}
+	}
+
+	/**
 	 * @Route("/game-create");
-	 * @Template()
 	 */
 	public function gameCreateAction()
 	{
-		$formFactory = $this->get('form.factory');
 		$request = $this->get('request');
 		$form = $request->get("form");
-		
+
 		if (isset($form['players']))
 		{
 			$players = array_keys($form['players']);
@@ -213,21 +230,28 @@ class MainController
 		else
 		{
 			$players = array();
-			for ($i = 1; $i <= 6; $i++)
+			for ($i = 1; $i <= 3; $i++)
 			{
 				$players[] = "Player{$i}";
 			}
 		}
-		
+
 		$game = new Game(new \DateTime());
 		$game->setName('Place holder');
-		
+
 		// Do we know how many to start with?
-		foreach ($players as $name)
-		{
+		foreach ($players as $name) {
 			// the following generates form name with spaces
 			$game->addPlayer(new PlayerCharacter($name));
 		}
+
+		return $this->handleGameEditCreate($game);
+	}
+
+	protected function handleGameEditCreate(Game $game)
+	{
+		$formFactory = $this->get('form.factory');
+		$request = $this->get('request');
 
 		$form = $formFactory
 			->createBuilder('form', $game, array('label' => 'New game'))
@@ -244,13 +268,13 @@ class MainController
 			if ($form->isValid()) {
 				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
 				$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
-   				
+
 				$count = $repository->findAll()->count() + 1;
 				$game->setName("Game {$count}");
-				
+
 				$dm->persist($game);
 				$dm->flush();
-				
+
 				// $game;	- Save game.
    				$retVal['success'] = true;
    				$router = $this->get('router');
