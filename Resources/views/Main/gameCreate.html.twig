@@ -46,7 +46,7 @@
 		var playerNames = {{ playerNames | json_encode |raw }};
 		var charNames = {{ characterNames | json_encode |raw }};
 		
-		$('#add_game .players .text.field input').each(function() {
+		$('#add_game .collection .text.field input').each(function() {
 			var availableTags = charNames;
 			if ($(this).parent().hasClass('username'))
 				availableTags = playerNames;
