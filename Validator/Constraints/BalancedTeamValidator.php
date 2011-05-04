@@ -33,9 +33,10 @@ class BalancedTeamValidator
     	$hunters = $shadows = 0;
     	foreach ($game->getPlayers() as $player)
     	{
-    		$char = $chars[$player->getCharacter()];
-    		if (!$char)
+    		if (!isset($chars[$player->getCharacter()]))
     			continue;
+
+    		$char = $chars[$player->getCharacter()];
 
     		if ($char->getFaction() == 'hunter')
     		{
