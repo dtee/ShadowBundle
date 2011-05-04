@@ -21,7 +21,7 @@ class BalancedTeamValidator
     {
     	if (!$game)
     		return true;
-    		
+
     	$repository = $this->dm->getRepository('Odl\ShadowBundle\Documents\Character');
     	$cursor = $repository->findAll();
     	$chars = array();
@@ -29,11 +29,14 @@ class BalancedTeamValidator
     	{
     		$chars[$char->getName()] = $char;
     	}
-    	
+
     	$hunters = $shadows = 0;
     	foreach ($game->getPlayers() as $player)
     	{
     		$char = $chars[$player->getCharacter()];
+    		if (!$char)
+    			continue;
+
     		if ($char->getFaction() == 'hunter')
     		{
     			$hunters++;
@@ -43,13 +46,13 @@ class BalancedTeamValidator
     			$shadows++;
     		}
     	}
-    	
+
         if ($hunters != $shadows) {
            $this->setMessage($constraint->message, array(
             	'{{ hunters }}' => $hunters,
             	'{{ shadows }}' => $shadows,
-            )); 
-            
+            ));
+
             return false;
         }
 
