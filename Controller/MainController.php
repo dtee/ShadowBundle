@@ -79,7 +79,7 @@ class MainController
 		$key = 'games_' . count($this->games);
 		if (function_exists('apc_fetch'))
 		{
-			$cache = \Doctrine\Common\Cache\ApcCach();
+			$cache = new \Doctrine\Common\Cache\ApcCache();
 		}
 		else
 		{
