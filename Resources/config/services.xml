@@ -8,9 +8,14 @@
     	<!-- Register asset extension so that user could use jumbo filter -->
         
         <!-- Validators -->
-        <service id="validator.unique.character" class="Odl\ShadowBundle\Validator\Constraints\CharacterValidator">
+        <service id="shadow.unique.character" class="Odl\ShadowBundle\Validator\Constraints\CharacterValidator">
 		    <argument type="service" id="doctrine.odm.mongodb.default_document_manager" />
 		    <tag name="validator.constraint_validator" alias="sh_character" />
+		</service>
+		
+        <service id="shadow.balanced_team" class="Odl\ShadowBundle\Validator\Constraints\BalancedTeamValidator">
+		    <argument type="service" id="doctrine.odm.mongodb.default_document_manager" />
+		    <tag name="validator.constraint_validator" alias="sh_balanced_team" />
 		</service>
     </services>
 </container>

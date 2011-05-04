@@ -17,20 +17,53 @@ use Symfony\Component\HttpFoundation\Response;
 class MainController
 	extends Controller
 {
-	protected $games;
-	protected $chars;
-	protected $factions;
-	protected $players;
-	protected $charsStats;
-
-	public function __construct()
+	public function __get($property)
 	{
-		// Database is not ready at this point
-		// $dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-
-		$this->games = Parser::loadGamesFromCSV(null);
-		$this->chars = Parser::loadChars();
-
+		if (!isset($this->$property))
+		{
+			$props = array('games', 'chars', 'factions', 'players', 'charsStats');
+			$props = array_flip($props);
+			
+			if (!isset($props[$property]))
+			{
+				throw new \Exception("{$property} not found.");
+			}
+			
+			$this->loadFromDB();
+		}
+		
+		return $this->$property;
+	}
+	
+	protected function loadFromDB() {
+		$this->chars = array();
+		$this->games = array();
+		
+		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
+		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Character');
+   				
+		$all = $repository->findAll();
+		foreach ($all as $char)
+		{
+			$this->chars[$char->getName()] = $char;
+		}
+		
+		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
+   				
+		$all = $repository->findAll()->sort(array(
+			'playTime' => 'asc',
+			'name' => 'asc'
+		));
+		
+		foreach ($all as $game)
+		{
+			$this->games[$game->getName()] = $game;
+			foreach ($game->getPlayers() as $player)
+			{
+				$player->char = $this->chars[$player->getCharacter()];
+			}
+		}
+		
 		$statProvider = new StatsProvider($this->games);
 		$this->factions = $statProvider->getFactionStats();
 		$this->charsStats = $statProvider->getCharacterStats();
@@ -43,9 +76,12 @@ class MainController
 	 */
 	public function indexAction()
 	{
+		$charts = $this->getStatsOverTime($this->games, $this->players);
+		
 		return array(
 			'games' => $this->games,
 			'factions' => $this->factions,
+			'charts' => $charts,
 			'players' => $this->players,
 			'chars' => $this->chars,
 			'charsStats' => $this->charsStats
@@ -155,18 +191,32 @@ class MainController
 		$formFactory = $this->get('form.factory');
 		$request = $this->get('request');
 		$form = $request->get("form");
-		$players = isset($form['players']) ? $form['players'] : array();
-
+		
+		if (isset($form['players']))
+		{
+			$players = array_keys($form['players']);
+		}
+		else
+		{
+			$players = array();
+			for ($i = 1; $i <= 6; $i++)
+			{
+				$players[] = "Player{$i}";
+			}
+		}
+		
 		$game = new Game(new \DateTime());
+		$game->setName('Place holder');
+		
 		// Do we know how many to start with?
-		foreach (array_keys($players) as $name)
+		foreach ($players as $name)
 		{
 			// the following generates form name with spaces
 			$game->addPlayer(new PlayerCharacter($name));
 		}
 
-		$form = $formFactory->createBuilder('form', $game)
-			->add('name', 'text')
+		$form = $formFactory
+			->createBuilder('form', $game, array('label' => 'New game'))
 			->add('playTime', 'date')
 			->add('players', 'collection', array(
 				'type' => new PlayerCharacterType(),
@@ -178,11 +228,19 @@ class MainController
 			$form->bindRequest($request);
 
 			if ($form->isValid()) {
-				// For some reason, the form validator doesn't work?
-				$validator = $this->get('validator');
-   				$errorList = $validator->validate($game);
-   				v('form is valid');
-   				ve($errorList);
+				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
+				$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
+   				
+				$count = $repository->findAll()->count() + 1;
+				$game->setName("Game {$count}");
+				
+				$dm->persist($game);
+				$dm->flush();
+				
+				// $game;	- Save game.
+   				$retVal['success'] = true;
+   				$router = $this->get('router');
+   				$retVal['href'] = $router->generate('odl_shadow_main_games');
 			}
 			else
 			{
@@ -220,10 +278,10 @@ class MainController
 	public function gamesAction()
 	{
 		return array(
-			'games' => $this->games,
-			'factions' => $this->factions,
-			'players' => $this->players,
 			'chars' => $this->chars,
+			'factions' => $this->factions,
+			'games' => array_reverse($this->games, true),
+			'players' => $this->players,
 			'charsStats' => $this->charsStats
 		);
 	}
@@ -250,12 +308,9 @@ class MainController
 	 */
 	public function playersAction()
 	{
-		$charts = $this->getStatsOverTime($this->games, $this->players);
-
 		return array(
 			'games' => $this->games,
 			'factions' => $this->factions,
-			'charts' => $charts,
 			'players' => $this->players,
 			'chars' => $this->chars,
 			'charsStats' => $this->charsStats
@@ -283,8 +338,10 @@ class MainController
 			'neutral' => 'gray'
 		);
 
-		foreach ($games as $index => $game)
+		$index = 0;
+		foreach ($games as $game)
 		{
+			$index++;
 			$incrementGames[] = $game;
 			$statProvider = new StatsProvider($incrementGames);
 			$playersStats = $statProvider->getPlayerStats();

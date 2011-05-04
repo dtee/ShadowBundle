@@ -6,43 +6,10 @@
 
 {% block content %}
 	<h3>All Players </h3>
-	
-	<div id="tabs">
-		<ul>
-			{% for chart in charts %}
-				<li><a href="#{{  chart.getId() }}-tab">{{ chart.getTitle() }}</a></li>
-			{% endfor %}
-		</ul>
-		{% for chart in charts %}
-			<div id="{{  chart.getId() }}-tab">
-				<div id="{{  chart.getId() }}" style="width: 800px; height: 600px; margin: 0 auto"></div> 
-			</div>
-		{% endfor %}
-	</div>
-	
-	<div class="clearfix"/>
-	{% set chart = charts.chance_to_win %}
-	<script>
-		var chart;
-		$(document).ready(function() {	
-			$( "#tabs" ).tabs();
-			
-			{% for chart in charts %}
-				var options = {{ chart.getChartOptions() | json_encode | raw }};
-				options.tooltip.formatter = percentageFormatter;
-				options.yAxis.labels = {};
-				options.yAxis.labels.formatter = function() {
-					return this.value + '%';
-				};
-				
-				chart = new Highcharts.Chart(options);
-			{% endfor %}
-		});
-	</script>
-	
 	{% for player in players %}
 		<div>
 		{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
 		</div>
 	{% endfor %}
+	<div class="clearfix" />
 {% endblock %}

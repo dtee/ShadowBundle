@@ -5,6 +5,7 @@ use Odl\ShadowBundle\Documents\PlayerCharacter;
 
 /**
  * @mongodb:Document(db="shadow_hunters", collection="game")
+ * @assertShadow:BalancedTeam()
  */
 class Game
 {
@@ -34,8 +35,6 @@ class Game
 	/**
 	 * @var PlayerCharacter
 	 * @mongodb:EmbedMany(targetDocument="PlayerCharacter")
-	 *
-	 * assert:Type(type="Odl\ShadowBundle\Documents\PlayerCharacter", message="You have to pick at least one player")
 	 */
 	protected $players;
 
@@ -116,12 +115,18 @@ class Game
 		$cache = array();
 		foreach ($this->getPlayers() as $player)
 		{
-			if (isset($cache[$player->getUsername()]))
+			$playerUsername = $player->getUsername();
+			if (!$playerUsername)
+			{
+				continue;
+			}
+			
+			if (isset($cache[$playerUsername]))
 			{
 				return true;
 			}
 
-			$cache[$player->getUsername()] = 1;
+			$cache[$playerUsername] = 1;
 		}
 
 		return false;
@@ -135,12 +140,18 @@ class Game
 		$cache = array();
 		foreach ($this->getPlayers() as $player)
 		{
-			if (isset($cache[$player->getCharacter()]))
+			$charname = $player->getCharacter();
+			if (!$charname)
+			{
+				continue;
+			}
+			
+			if (isset($cache[$charname]))
 			{
 				return true;
 			}
 
-			$cache[$player->getCharacter()] = 1;
+			$cache[$charname] = 1;
 		}
 
 		return false;
@@ -154,9 +165,18 @@ class Game
 		foreach ($this->getPlayers() as $player)
 		{
 			$faction = $player->getFaction();
+			
+			if (!$faction) {
+				continue; 
+			}
+			
 			$cache[$faction][] = $player;
 		}
 
 		return count($cache['hunter']) == count($cache['shadow']);
+	}
+	
+	public function __toString(){
+		return $this->name;
 	}
 }

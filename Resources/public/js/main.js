@@ -12,8 +12,14 @@ function indexGameWinners()
 	});
 }
 
-function percentageFormatter() {
-	var html = '';
+function percentageFormatter(e) {
+	var sorter = function(a, b) {
+		// sort desc
+		return b.y - a.y;
+	};
+	this.points.sort(sorter);
+
+	var html = '<strong>Game #'+ this.points[0].x +'</strong><br/>';
 	for (var index in this.points)
 	{
 		var point = this.points[index];
@@ -23,8 +29,12 @@ function percentageFormatter() {
 			color = point.point.factionColor;
 		}
 		
-		html += '<strong style="color:' + color +';font-weight: bold;display:inline-block;width: 60px;">'+ point.series.name +':</strong>'+
-				point.x +' - '+ point.y +'%<br/>';
+		var div = '<strong style="color:' + color +';font-weight: bold;display:inline-block;width: 140px;">'
+				+ point.series.name +':</strong>' + "\t" + point.y +'%';
+		
+		div += '<br/>';
+		
+		html += div;
 	}
 	
     return html;

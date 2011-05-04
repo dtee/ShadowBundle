@@ -2,7 +2,7 @@
 {% form_theme formView "ShadowBundle:Form:fields_game.html.twig" %}
 
 {% block title %}
-	Add a new game
+	Add a new game!
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
 	</form>
 	
 	<div id="player_template" style="display:none">
-		<label for="form_players_index" class="">New Player</label>
+		<label for="form_players_index" class="">Player Info</label>
 		<div id="form_players_index" name="form[players][index]" required="required">
 			<div class="username text field" id="form_players_index_username-container">
 				<label for="form_players_index_username" class="">Username</label>
@@ -50,7 +50,8 @@
 			var availableTags = charNames;
 			if ($(this).parent().hasClass('username'))
 				availableTags = playerNames;
-				
+			
+			$(this).val('');
 			$(this).autocomplete({
 				source: availableTags,
 				autoFocus: true,

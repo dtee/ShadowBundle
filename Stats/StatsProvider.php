@@ -9,9 +9,10 @@ namespace Odl\ShadowBundle\Stats;
 class StatsProvider
 {
 	private $games;
-	private $chars;
+	private $playerStatss;
 	private $players;
 	private $factions;
+	private $chars;
 
 	public function __construct(array $games)
 	{
@@ -82,14 +83,14 @@ class StatsProvider
 				$players = $game->getPlayers();
 				foreach ($players as $player)
 				{
-					$char = $this->getChar($player->getCharacter());
-					$char->totalPlayed ++;
+					$playerStats = $this->getChar($player->getCharacter());
+					$playerStats->totalPlayed ++;
 					if ($player->isAlive) {
-						$char->totalAlive++;
+						$playerStats->totalAlive++;
 					}
 
 					if ($player->isWin) {
-						$char->totalWin++;
+						$playerStats->totalWin++;
 					}
 				}
 			}
@@ -120,21 +121,22 @@ class StatsProvider
 				$players = $game->getPlayers();
 				foreach ($players as $player)
 				{
-					$char = $this->getPlayer($player->getUsername());
+					$playerStats = $this->getPlayer($player->getUsername());
 					$faction = $player->char->getFaction();
 
-					$char->totalPlayed ++;
-					$char->factions[$faction]->totalPlayed ++;
+					$playerStats->totalPlayed ++;
+					$playerStats->factions[$faction]->totalPlayed ++;
+					
 					if ($player->isAlive) {
-						$char->totalAlive++;
-						$char->factions[$faction]->totalAlive ++;
+						$playerStats->totalAlive++;
+						$playerStats->factions[$faction]->totalAlive ++;
 					}
 
-					$char->games[] = $game;
+					$playerStats->games[] = $game;
 
 					if ($player->isWin) {
-						$char->totalWin++;
-						$char->factions[$faction]->totalWin ++;
+						$playerStats->totalWin++;
+						$playerStats->factions[$faction]->totalWin ++;
 					}
 				}
 			}

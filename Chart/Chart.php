@@ -126,11 +126,11 @@ class Chart {
 		$options = array(
 			'chart' => array(
 				'renderTo' => $this->getId(),
-				'defaultSeriesType' => 'spline'
+				'defaultSeriesType' => 'spline',
+				'zoomType' => 'x',
 			),
 			'title' => array('text' => $this->getTitle()),
 			'xAxis' => array(
-				'categories' => $this->getCategories(),
 				'maxZoom' => 10,
 				'title' => 'Game #'
 			),

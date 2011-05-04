@@ -3,7 +3,12 @@
 {% block title "Shadow Hunters!!" %}
 
 {% block content %}
-	<div>
+	<h3>Players Chart: </h3>
+	{% include 'ShadowBundle:Main:_chart.html.twig' with 
+		{'charts': charts}
+	%}
+	
+	<div class="prepend-top">
 		<h3>Faction Stats: </h3>
 		{% for faction in factions %}
 			<div>
@@ -11,34 +16,4 @@
 			</div>
 		{% endfor %}
 	</div>
-	
-	<hr/>
-	<div>
-		<h3>Player Stats: </h3>
-		{% for player in players %}
-			{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
-			<div class="clearfix" />
-		{% endfor %}
-	</div>
-	
-	<hr/>
-	<div>
-		<h3>Character Stats: </h3>
-		{% for char in charsStats %}
-			<div>
-			{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': char} %}
-			</div>
-		{% endfor %}
-	</div>
-	
-	<hr/>
-	<div>
-		<h3>Games: </h3>
-		{% for game in games %}
-			<div class="game">
-			{% include 'ShadowBundle:Main:_game.html.twig' with {'game': game} %}
-			</div>
-		{% endfor %}
-	</div>
-	
 {% endblock %}
