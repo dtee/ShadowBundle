@@ -207,6 +207,24 @@ class MainController
 		$game = $repository->find($id);
 		if ($game)
 		{
+			
+			// Adding more players
+			$request = $this->get('request');
+			$form = $request->get("form");
+	
+			if (isset($form['players']))
+			{
+				$players = array_keys($form['players']);
+				
+				foreach ($players as $name) {
+					if (startsWith($name, 'player'))
+					{
+						// the following generates form name with spaces
+						$game->addPlayer(new PlayerCharacter($name));
+					}
+				}
+			}
+	
 			return $this->handleGameEditCreate($game);
 		}
 		else

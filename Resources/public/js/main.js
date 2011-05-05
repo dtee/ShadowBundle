@@ -29,8 +29,9 @@ function percentageFormatter(e) {
 			color = point.point.factionColor;
 		}
 		
+		var place = parseInt(index) + 1;
 		var div = '<strong style="color:' + color +';font-weight: bold;display:inline-block;width: 140px;">'
-				+ point.series.name +':</strong>' + "\t" + point.y +'%';
+				+ place + '. ' + point.series.name +':</strong>' + "\t" + point.y +'%';
 		
 		div += '<br/>';
 		

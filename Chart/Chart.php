@@ -127,7 +127,7 @@ class Chart {
 			'chart' => array(
 				'renderTo' => $this->getId(),
 				'defaultSeriesType' => 'spline',
-				'zoomType' => 'x',
+				'zoomType' => 'xy',
 			),
 			'title' => array('text' => $this->getTitle()),
 			'xAxis' => array(
