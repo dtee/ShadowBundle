@@ -207,7 +207,6 @@ class MainController
 		$game = $repository->find($id);
 		if ($game)
 		{
-			
 			// Adding more players
 			$request = $this->get('request');
 			$form = $request->get("form");
@@ -224,7 +223,7 @@ class MainController
 					}
 				}
 			}
-	
+		
 			return $this->handleGameEditCreate($game);
 		}
 		else
@@ -255,7 +254,7 @@ class MainController
 		}
 
 		$game = new Game(new \DateTime());
-		$game->setName('Place holder');
+		$game->setName('__newgame__');
 
 		// Do we know how many to start with?
 		foreach ($players as $name) {
@@ -287,8 +286,11 @@ class MainController
 				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
 				$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
 
-				$count = $repository->findAll()->count() + 1;
-				$game->setName("Game {$count}");
+				if ($game->getName() == '__newgame__')
+				{
+					$count = $repository->findAll()->count() + 1;
+					$game->setName("Game {$count}");
+				}
 
 				$dm->persist($game);
 				$dm->flush();
