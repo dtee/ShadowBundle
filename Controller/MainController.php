@@ -228,7 +228,7 @@ class MainController
 		}
 		else
 		{
-			throw new Exception('Game ID: {$id} not found.');
+			throw new \Exception("Game ID: {$id} not found.");
 		}
 	}
 
