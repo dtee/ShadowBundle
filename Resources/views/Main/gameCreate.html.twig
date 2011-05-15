@@ -13,7 +13,7 @@
 			{{ form_row(formView) }}
 		</div>
 		
-		<input type="button" value="Save" onclick="$('#add_game').ajaxForm()"/>
+		<input type="submit" value="Save" />
 	</form>
 	
 	<div id="player_template" style="display:none">
@@ -46,6 +46,7 @@
 		var playerNames = {{ playerNames | json_encode |raw }};
 		var charNames = {{ characterNames | json_encode |raw }};
 		
+		$('#add_game').ajaxForm();
 		$('#add_game .collection .text.field input').each(function() {
 			var availableTags = charNames;
 			if ($(this).parent().hasClass('username'))
