@@ -420,12 +420,12 @@ class MainController
 
 				$gameCount[$playerName] += 1;
 				$playerStats = $playersStats[$playerName];
-				$seriesHash['Chance To Win'][$playerName][] = array(
+				$seriesHash['Win'][$playerName][] = array(
 					'x' => $index,
 					'y' => $playerStats->getChanceToWin(),
 					'factionColor' => $factionColor);
 
-				$seriesHash['Chance To Live'][$playerName][] = array(
+				$seriesHash['Survival'][$playerName][] = array(
 					'x' => $index,
 					'y' => $playerStats->getChanceToLive(),
 					'factionColor' => $factionColor);
@@ -433,12 +433,12 @@ class MainController
 				foreach ($playerStats->factions as $factionStats)
 				{
 					$factionName = ucfirst($factionStats->name);
-					$seriesHash['Chance To Win - ' . $factionName][$playerName][] = array(
+					/*$seriesHash[$factionName][$playerName][] = array(
 						'x' => $index,
 						'y' => $factionStats->getChanceToWin(),
-						'factionColor' => $factionColor);
+						'factionColor' => $factionColor);*/
 
-					$seriesHash['Relative Chance To Win - ' . $factionName][$playerName][] = array(
+					$seriesHash[$factionName][$playerName][] = array(
 						'x' => $index,
 						'y' => $factionStats->getRelativeChanceToWin(),
 						'factionColor' => $factionColor);
