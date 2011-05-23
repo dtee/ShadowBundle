@@ -31,20 +31,45 @@ class Character
 	protected $faction;	// shadow/hunter/netural
 
 	/**
-	 * @mongodb:String
+	 * @mongodb:Field(
+	 * 	type="string",
+	 * 	options={"label"="Description"}
+	 * )
 	 */
 	protected $description;
 
 	/**
-	 * @mongodb:String
+	 * @mongodb:Field(
+	 * 	type="string",
+	 * 	options={"label"="Ability Description"}
+	 * )
 	 */
 	protected $ability;
 	
 	/**
 	 * @mongodb:String
 	 */
+	protected $abilityName;
+	
+	/**
+	 * @mongodb:String
+	 */
 	protected $winCondition;
 	
+	/**
+	 * @return the $abilityName
+	 */
+	public function getAbilityName() {
+		return $this->abilityName;
+	}
+
+	/**
+	 * @param field_type $abilityName
+	 */
+	public function setAbilityName($abilityName) {
+		$this->abilityName = $abilityName;
+	}
+
 	/**
 	 * @return the $imageUrl
 	 */

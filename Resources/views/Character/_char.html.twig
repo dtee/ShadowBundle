@@ -1,0 +1,10 @@
+{% extends "ShadowBundle::basestats.html.twig" %}
+{% set stats = char %}
+
+{% block name %}
+	<span class="title name">
+		<a href="{{ path('odl_shadow_character_char', {'charName' : stats.name}) }}">
+			{{ stats.name }}
+		</a>
+	</span>
+{% endblock %}

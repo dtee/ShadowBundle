@@ -1,0 +1,16 @@
+{% extends "ShadowBundle::layout.html.twig" %}
+
+{% block title %}
+	Characters
+{% endblock %}
+
+{% block content %}
+	<h3>All Characters </h3>
+	{{ grid.render() | raw }}
+	
+	{% for char in charsStats %}
+		<div>
+		{% include 'ShadowBundle:Character:_char.html.twig' with {'char': char} %}
+		</div>
+	{% endfor %}
+{% endblock %}

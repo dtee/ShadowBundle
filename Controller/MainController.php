@@ -1,75 +1,9 @@
 <?php
 namespace Odl\ShadowBundle\Controller;
 
-use Odl\ShadowBundle\Documents\Character;
-
-use Odl\ShadowBundle\Documents\PlayerCharacter;
-use Odl\ShadowBundle\Form\PlayerCharacterType;
-use Odl\ShadowBundle\Chart\Chart;
-use Odl\ShadowBundle\Stats\Char;
-use Odl\ShadowBundle\Stats\StatsProvider;
-use Odl\ShadowBundle\Parser\Parser;
-use Odl\ShadowBundle\Documents\Game;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-
 class MainController
-	extends Controller
+	extends AbstractController
 {
-	public function __get($property)
-	{
-		if (!isset($this->$property))
-		{
-			$props = array('games', 'chars', 'factions', 'players', 'charsStats');
-			$props = array_flip($props);
-
-			if (!isset($props[$property]))
-			{
-				throw new \Exception("{$property} not found.");
-			}
-
-			$this->loadFromDB();
-		}
-
-		return $this->$property;
-	}
-
-	protected function loadFromDB() {
-		$this->chars = array();
-		$this->games = array();
-
-		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Character');
-
-		$all = $repository->findAll();
-		foreach ($all as $char)
-		{
-			$this->chars[$char->getName()] = $char;
-		}
-
-		$repository = $dm->getRepository('Odl\ShadowBundle\Documents\Game');
-
-		$all = $repository->findAll()->sort(array(
-			'playTime' => 'asc',
-			'name' => 'asc'
-		));
-
-		foreach ($all as $game)
-		{
-			$this->games[$game->getName()] = $game;
-			foreach ($game->getPlayers() as $player)
-			{
-				$player->char = $this->chars[$player->getCharacter()];
-			}
-		}
-
-		$statProvider = new StatsProvider($this->games);
-		$this->factions = $statProvider->getFactionStats();
-		$this->charsStats = $statProvider->getCharacterStats();
-		$this->players = $statProvider->getPlayerStats();
-	}
-
 	/**
 	 * @Route("");
 	 * @Template()
@@ -96,85 +30,6 @@ class MainController
 			'games' => $this->games,
 			'factions' => $this->factions,
 			'charts' => $charts,
-			'players' => $this->players,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats
-		);
-	}
-
-	/**
-	 * @Route("/char/{charName}");
-	 * @Template()
-	 */
-	public function charAction($charName)
-	{
-		$formFactory = $this->get('form.factory');
-		$request = $this->get('request');
-		$char = $this->chars[$charName];
-		$factionChoices = array_keys($this->factions);
-		$factionChoices = array_combine($factionChoices, $factionChoices);
-
-		$form = $formFactory->createBuilder('form', $char)
-			->add('hitPoint', 'text')
-			->add('faction', 'choice', array(
-				'choices' => $factionChoices
-			))
-			->add('ability', 'textarea')
-			->add('winCondition', 'textarea')
-			->getForm();
-
-		$content = array();
-        $response = new Response();
-		if ($request->getMethod() == 'POST') {
-			$form->bindRequest($request);
-
-			if ($form->isValid()) {
-				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-				$dm->persist($char);
-				$dm->flush();
-
-				$retVal = array('success' => 'Saved.');
-				$content = json_encode($retVal);
-			}
-		}
-
-		$params = array(
-			'char' => $char,
-			'charStats' => $this->charsStats[$charName],
-			'formView' => $form->createView(),
-
-			'games' => $this->games,
-			'factions' => $this->factions,
-			'players' => $this->players,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats,
-		);
-
-		if ($request->isXmlHttpRequest())
-		{
-        	$errorsProvider = $this->get('form.errors');
-		    $retVal['error'] = $errorsProvider->getErrors($form);
-		    $content = json_encode($retVal);
-		}
-		else
-		{
-			$content = $this->renderView(
-				'ShadowBundle:Main:char.html.twig', $params);
-		}
-
-		$response->setContent($content);
-		return $response;
-	}
-
-	/**
-	 * @Route("/chars");
-	 * @Template()
-	 */
-	public function charsAction()
-	{
-		return array(
-			'games' => $this->games,
-			'factions' => $this->factions,
 			'players' => $this->players,
 			'chars' => $this->chars,
 			'charsStats' => $this->charsStats
