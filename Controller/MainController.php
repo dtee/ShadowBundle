@@ -1,6 +1,25 @@
 <?php
 namespace Odl\ShadowBundle\Controller;
 
+use Odl\ShadowBundle\Documents\Character;
+
+use Odl\ShadowBundle\Documents\PlayerCharacter;
+use Odl\ShadowBundle\Form\PlayerCharacterType;
+use Odl\ShadowBundle\Chart\Chart;
+use Odl\ShadowBundle\Stats\Char;
+use Odl\ShadowBundle\Stats\StatsProvider;
+use Odl\ShadowBundle\Parser\Parser;
+use Odl\ShadowBundle\Documents\Game;
+
+use Dtc\GridBundle\Grid\Renderer\TwigGridRenderer;
+use Dtc\GridBundle\Grid\Renderer\JQueryGridRenderer;
+use Dtc\GridBundle\Grid\Grid;
+use Dtc\GridBundle\Grid\Column\GridColumn;
+use Dtc\GridBundle\Grid\Source\DocumentGridSource;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
 class MainController
 	extends AbstractController
 {
@@ -65,11 +84,11 @@ class MainController
 			// Adding more players
 			$request = $this->get('request');
 			$form = $request->get("form");
-	
+
 			if (isset($form['players']))
 			{
 				$players = array_keys($form['players']);
-				
+
 				foreach ($players as $name) {
 					if (startsWith($name, 'player'))
 					{
@@ -78,7 +97,7 @@ class MainController
 					}
 				}
 			}
-		
+
 			return $this->handleGameEditCreate($game);
 		}
 		else
