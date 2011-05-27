@@ -1,46 +1,49 @@
 <?php
 namespace Odl\ShadowBundle\Documents;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
-/** @mongodb:EmbeddedDocument
+/** @ODM\EmbeddedDocument
  */
 class PlayerCharacter
 {
 	/**
-	 * @mongodb:String
-	 * @mongodb:Index
-	 * @assert:NotBlank()
-	 * @assert:MinLength(3)
+	 * @ODM\String
+	 * @ODM\Index
+	 * @Assert\NotBlank()
+	 * @Assert\MinLength(3)
 	 */
 	protected $username;
 
 	/**
-	 * @mongodb:String
-	 * @mongodb:Index
-	 * @assert:NotBlank()
-	 * @assert:MinLength(3)
-	 * 
+	 * @ODM\String
+	 * @ODM\Index
+	 * @Assert\NotBlank()
+	 * @Assert\MinLength(3)
+	 *
 	 * @assertShadow:Character()
 	 */
 	protected $character;
 
 	/**
-	 * @mongodb:boolean
+	 * @ODM\boolean
 	 */
 	public $isWin;
 
 	/**
-	 * @mongodb:boolean
+	 * @ODM\boolean
 	 */
 	public $isAlive;
 
 	/**
-	 * @mongodb:boolean
+	 * @ODM\boolean
 	 */
 	public $isLastDeath;
 
 	/**
-	 * @mongodb:NotSaved
+	 * @ODM\NotSaved
 	 */
 	public $char;
 

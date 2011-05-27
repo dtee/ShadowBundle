@@ -1,6 +1,9 @@
 <?php
 namespace Odl\ShadowBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Odl\ShadowBundle\Documents\Character;
 
 use Odl\ShadowBundle\Documents\PlayerCharacter;

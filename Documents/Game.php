@@ -1,40 +1,43 @@
 <?php
 namespace Odl\ShadowBundle\Documents;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Odl\ShadowBundle\Documents\PlayerCharacter;
 
 /**
- * @mongodb:Document(db="shadow_hunters", collection="game")
+ * @ODM\Document(db="shadow_hunters", collection="game")
  * @assertShadow:BalancedTeam()
  */
 class Game
 {
 	/**
-	 * @mongodb:id
+	 * @ODM\id
 	 */
 	protected $id;
 
 	/**
-	 * @mongodb:Date
+	 * @ODM\Date
 	 */
 	protected $playTime;
 
 	/**
-	 * @mongodb:String
+	 * @ODM\String
 	 */
 	protected $summary;
 
 	/**
-	 * @mongodb:String
-	 * @mongodb:Index(unique=true, order="asc")
-	 * @assert:NotBlank()
-	 * @assert:MinLength(3)
+	 * @ODM\String
+	 * @ODM\Index(unique=true, order="asc")
+	 * @Assert\NotBlank()
+	 * @Assert\MinLength(3)
 	 */
 	protected $name;
 
 	/**
 	 * @var PlayerCharacter
-	 * @mongodb:EmbedMany(targetDocument="PlayerCharacter")
+	 * @ODM\EmbedMany(targetDocument="PlayerCharacter")
 	 */
 	protected $players;
 
@@ -108,7 +111,7 @@ class Game
 	}
 
 	/**
-	 * @assert:False(message = "Player much not appear more than once")
+	 * @Assert\False(message = "Player much not appear more than once")
 	 */
 	public function isDuplicatePlayers()
 	{
@@ -133,7 +136,7 @@ class Game
 	}
 
 	/**
-	 * @assert:False(message = "Character must not appear more than once")
+	 * @Assert\False(message = "Character must not appear more than once")
 	 */
 	public function isDuplicateCharacters()
 	{

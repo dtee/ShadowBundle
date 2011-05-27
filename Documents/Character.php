@@ -1,29 +1,32 @@
 <?php
 namespace Odl\ShadowBundle\Documents;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
- * @mongodb:Document(db="shadow_hunters", collection="char")
+ * @ODM\Document(db="shadow_hunters", collection="char")
  */
 class Character
 {
 	/**
-	 * @mongodb:id(strategy="NONE")
+	 * @ODM\id(strategy="NONE")
 	 */
 	protected $name;
 
 	/**
-	 * @mongodb:String
+	 * @ODM\String
 	 */
 	protected $imageUrl;
 
 	/**
-	 * @mongodb:int
+	 * @ODM\int
 	 */
 	protected $hitPoint;
 
 	/**
-	 * @mongodb:String
-	 * @assert:Choice(
+	 * @ODM\String
+	 * @Assert\Choice(
      *     choices = { "shadow", "hunter", "neutral"},
      *     message = "Choose a valid faction."
      * )
@@ -31,7 +34,7 @@ class Character
 	protected $faction;	// shadow/hunter/netural
 
 	/**
-	 * @mongodb:Field(
+	 * @ODM\Field(
 	 * 	type="string",
 	 * 	options={"label"="Description"}
 	 * )
@@ -39,23 +42,23 @@ class Character
 	protected $description;
 
 	/**
-	 * @mongodb:Field(
+	 * @ODM\Field(
 	 * 	type="string",
 	 * 	options={"label"="Ability Description"}
 	 * )
 	 */
 	protected $ability;
-	
+
 	/**
-	 * @mongodb:String
+	 * @ODM\String
 	 */
 	protected $abilityName;
-	
+
 	/**
-	 * @mongodb:String
+	 * @ODM\String
 	 */
 	protected $winCondition;
-	
+
 	/**
 	 * @return the $abilityName
 	 */

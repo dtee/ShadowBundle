@@ -1,6 +1,9 @@
 <?php
 namespace Odl\ShadowBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Odl\ShadowBundle\Documents\Character;
 
 use Odl\ShadowBundle\Documents\PlayerCharacter;
@@ -22,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CharacterController
 	extends AbstractController
-{	
+{
 	/**
 	 * @Route("/edit/{charName}");
 	 * @Template()
@@ -89,7 +92,7 @@ class CharacterController
 		$response->setContent($content);
 		return $response;
 	}
-	
+
 	/**
 	 * @Route("/");
 	 * @Template()
@@ -99,7 +102,7 @@ class CharacterController
 		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
 		$documentName = 'Odl\ShadowBundle\Documents\Character';
 		$renderer = $this->get('grid.renderer.jq_grid');
-		
+
 		$gridSource = new DocumentGridSource($dm, $documentName);
 		$renderer->bind($gridSource);
 		return array(

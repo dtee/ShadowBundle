@@ -13,10 +13,5 @@ class ShadowBundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-
-        // Add custom validator
-        $container->addCompilerPass(
-        	new AddValidatorNamespaceAliasPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
     }
-	
 }
