@@ -3,12 +3,13 @@ namespace Odl\ShadowBundle\Documents;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Odl\ShadowBundle\Validator\Constraints as AssertShadow;
 
 use Odl\ShadowBundle\Documents\PlayerCharacter;
 
 /**
  * @ODM\Document(db="shadow_hunters", collection="game")
- * @assertShadow:BalancedTeam()
+ * @AssertShadow\BalancedTeam()
  */
 class Game
 {

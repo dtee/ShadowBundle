@@ -20,9 +20,9 @@
 {% block field_row %}
 	{% spaceless %}
 		{% set formTypes = form.get('types') %}
-		{% set formName = form.get('form_name') %}
+		{% set name = form.get('name') %}
 		
-	    <div class="{{ formTypes | join(" ") }} {{ formName }}" id="{{ form.get('id') }}-container">
+	    <div class="{{ formTypes | join(" ") }} {{ name }}" id="{{ form.get('id') }}-container">
 	        {# TODO: would be nice to rename this variable to "field" #}
 	        {{ form_label(form) | raw }}
 	        {{ form_widget(form) }}

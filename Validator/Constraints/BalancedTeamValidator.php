@@ -22,6 +22,7 @@ class BalancedTeamValidator
     	if (!$game)
     		return true;
 
+    		ve('hit..');
     	$repository = $this->dm->getRepository('Odl\ShadowBundle\Documents\Character');
     	$cursor = $repository->findAll();
     	$chars = array();
