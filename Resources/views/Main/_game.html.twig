@@ -7,8 +7,11 @@
 </h3>
 <div class="players">
 {% for player in game.getPlayers() %}
-	{% set css = player.isWin ? 'won' : '' %}
-	<span class="player {{ css}} {{ player.getUsername() }}">
+	{% set css = player.isWin ? ['won']: [] %}
+    {% set css = css|merge(player.getIsAlive() ? []: ['dead']) %}
+    {% set css = css|merge(player.getIsLastDeath() ? ['last-dead']: []) %}
+    
+	<span class="player {{ css | join(' ')}} {{ player.getUsername() }}">
 		<a href="{{ path('odl_shadow_main_player', {'id' : player.getUsername()}) }}">
 			<span class="username">{{ player.getUsername() }}
 			</span>

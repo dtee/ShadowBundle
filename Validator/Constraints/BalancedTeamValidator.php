@@ -22,7 +22,6 @@ class BalancedTeamValidator
     	if (!$game)
     		return true;
 
-    		ve('hit..');
     	$repository = $this->dm->getRepository('Odl\ShadowBundle\Documents\Character');
     	$cursor = $repository->findAll();
     	$chars = array();
@@ -35,7 +34,12 @@ class BalancedTeamValidator
     	foreach ($game->getPlayers() as $player)
     	{
     		if (!isset($chars[$player->getCharacter()]))
-    			continue;
+    		{
+				$this->setMessage("Character '{$player->getCharacter()}' does not exists.",
+	           		array());
+
+	            return false;
+    		}
 
     		$char = $chars[$player->getCharacter()];
 

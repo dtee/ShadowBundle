@@ -3,6 +3,7 @@ namespace Odl\ShadowBundle\Documents;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Odl\ShadowBundle\Validator\Constraints as AssertShadow;
 
 /**
 /** @ODM\EmbeddedDocument
@@ -12,6 +13,7 @@ class PlayerCharacter
 	/**
 	 * @ODM\String
 	 * @ODM\Index
+	 *
 	 * @Assert\NotBlank()
 	 * @Assert\MinLength(3)
 	 */
@@ -20,10 +22,11 @@ class PlayerCharacter
 	/**
 	 * @ODM\String
 	 * @ODM\Index
+	 *
 	 * @Assert\NotBlank()
 	 * @Assert\MinLength(3)
 	 *
-	 * @assertShadow:Character()
+	 * @assertShadow\Character()
 	 */
 	protected $character;
 

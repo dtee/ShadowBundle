@@ -15,7 +15,7 @@ class BalancedTeam
     {
         return self::CLASS_CONSTRAINT;
     }
-    
+
     public function validatedBy()
     {
     	return 'sh_balanced_team';

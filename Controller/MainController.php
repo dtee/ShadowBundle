@@ -27,6 +27,25 @@ class MainController
 	extends AbstractController
 {
 	/**
+	 * @Route("test");
+	 * @Template()
+	 */
+	public function test() {
+		$game = new Game();
+		$game->setName('test');
+		$validator = $this->get('validator');
+
+		$player = new PlayerCharacter();
+		$player->setCharacter('fu-ka1');
+		$player->setUsername('dtee');
+		$game->addPlayer($player);
+
+		$errorList = $validator->validate($game);
+
+		ve($errorList);
+	}
+
+	/**
 	 * @Route("");
 	 * @Template()
 	 */

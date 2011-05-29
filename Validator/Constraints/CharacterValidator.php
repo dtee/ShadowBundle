@@ -21,10 +21,10 @@ class CharacterValidator
     {
     	if (!$value)
     		return true;
-    		
+
     	$repository = $this->dm->getRepository('Odl\ShadowBundle\Documents\Character');
     	$char = $repository->find($value);
-    	
+
         if (!$char) {
             $this->setMessage($constraint->message, array(
             	'{{ charname }}' => $value
