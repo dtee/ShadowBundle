@@ -37,8 +37,9 @@ class MainController
         $domain = $container->getParameter('root_domain');
 
         $ids = $container->getServiceIds();
+        $assetsHelper = $this->get('templating.helper.assets');
 
-        ve($this->container->getParameter('test'));
+        ve($assetsHelper);
 
         sort($ids);
         ve($ids);

@@ -13,7 +13,6 @@ class ShadowExtension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-
-        // Lets set up
+        $loader->load('grid.xml');
     }
 }

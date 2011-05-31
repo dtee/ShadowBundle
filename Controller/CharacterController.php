@@ -99,12 +99,10 @@ class CharacterController
 	 */
 	public function indexAction()
 	{
-		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-		$documentName = 'Odl\ShadowBundle\Documents\Character';
 		$renderer = $this->get('grid.renderer.jq_grid');
-
-		$gridSource = new DocumentGridSource($dm, $documentName);
+		$gridSource = $this->get('grid.source.character');
 		$renderer->bind($gridSource);
+
 		return array(
 			'grid' => $renderer,
 			'chars' => $this->chars,
