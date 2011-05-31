@@ -23,6 +23,8 @@ use Dtc\GridBundle\Grid\Source\DocumentGridSource;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+use JMS\SecurityExtraBundle\Annotation\Secure;
+
 class MainController
 	extends AbstractController
 {
@@ -31,6 +33,16 @@ class MainController
 	 * @Template()
 	 */
 	public function test() {
+        $container = $this->container;
+        $domain = $container->getParameter('root_domain');
+
+        $ids = $container->getServiceIds();
+
+        ve($this->container->getParameter('test'));
+
+        sort($ids);
+        ve($ids);
+
 		$game = new Game();
 		$game->setName('test');
 		$validator = $this->get('validator');
@@ -94,6 +106,8 @@ class MainController
 
 	/**
 	 * @Route("/game-edit/{id}");
+	 *
+     * @Secure(roles="ROLE_USER, ROLE_FOO, ROLE_ADMIN")
 	 */
 	public function gameEditAction($id)
 	{
@@ -130,6 +144,7 @@ class MainController
 
 	/**
 	 * @Route("/game-create");
+	 *
 	 */
 	public function gameCreateAction()
 	{

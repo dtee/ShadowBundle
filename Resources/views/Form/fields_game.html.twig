@@ -5,14 +5,6 @@
     <div {{ block('attributes') }}>
         {{ block('field_rows') }}
         {{ form_rest(form) }}
-	
-		{% set formTypes = form.get('types') %}
-	    {% if formTypes.0 == 'collection' %}
-	    	<div class="playercharacter form field">
-	    		<label>Add new player</label>
-	    		<div><a href="javascript:void(0)" onclick="addNewPlayer(this)"> Add New???</a></div>
-	    	</div>
-		{% endif %}
     </div>
 {% endspaceless %}
 {% endblock form_widget %}

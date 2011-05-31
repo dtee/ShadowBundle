@@ -17,6 +17,11 @@
 	</form>
 	
 	<div id="player_template" style="display:none">
+    	<div class="playercharacter form field" id="new">
+    		<label>Add new player</label>
+    		<div><a href="javascript:void(0)" onclick="addNewPlayer(this)"> Add New???</a></div>
+    	</div>
+	    	
 		<label for="form_players_index" class="">Player Info</label>
 		<div id="form_players_index" name="form[players][index]" required="required">
 			<div class="username text field" id="form_players_index_username-container">
@@ -47,6 +52,7 @@
 		var charNames = {{ characterNames | json_encode |raw }};
 		
 		$('#add_game').ajaxForm();
+		$('#form_players').append($('#player_template #new'));
 		$('#add_game .collection .text.field input').each(function() {
 			var availableTags = charNames;
 			if ($(this).parent().hasClass('username'))
