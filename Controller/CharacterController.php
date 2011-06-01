@@ -32,6 +32,8 @@ class CharacterController
 	 */
 	public function charAction($charName)
 	{
+    	$manager = $this->get('shadow.manager');
+
 		$formFactory = $this->get('form.factory');
 		$request = $this->get('request');
 		$char = $this->chars[$charName];
@@ -99,14 +101,19 @@ class CharacterController
 	 */
 	public function indexAction()
 	{
+    	$manager = $this->get('shadow.manager');
+
 		$renderer = $this->get('grid.renderer.jq_grid');
 		$gridSource = $this->get('grid.source.character');
 		$renderer->bind($gridSource);
 
+		$games = $manager->getAllGames();
+        $statProvider = new StatsProvider($games);
+
 		return array(
 			'grid' => $renderer,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats
+			'chars' => $manager->getCharacters(),
+			'charsStats' => $statProvider->getCharacterStats()
 		);
 	}
 }

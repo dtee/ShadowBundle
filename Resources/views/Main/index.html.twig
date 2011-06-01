@@ -7,13 +7,4 @@
 	{% include 'ShadowBundle:Main:_chart.html.twig' with 
 		{'charts': charts}
 	%}
-	
-	<div class="prepend-top">
-		<h3>Faction Stats: </h3>
-		{% for faction in factions %}
-			<div>
-			{% include 'ShadowBundle:Main:_faction.html.twig' with {'faction': faction} %}
-			</div>
-		{% endfor %}
-	</div>
 {% endblock %}

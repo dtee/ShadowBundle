@@ -1,6 +1,7 @@
 <?php
 namespace Odl\ShadowBundle\Documents;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Odl\ShadowBundle\Validator\Constraints as AssertShadow;
@@ -41,6 +42,46 @@ class Game
 	 * @ODM\EmbedMany(targetDocument="PlayerCharacter")
 	 */
 	protected $players;
+
+	/**
+	 * @ODM\Field(type="date")
+	 * @Gedmo\Timestampable(on="create")
+	 */
+	protected $createdAt;
+
+	/**
+	 * @ODM\Field(type="date")
+	 * @Gedmo\Timestampable(on="update")
+	 */
+	protected $updatedAt;
+
+	/**
+     * @return the $createdAt
+     */
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
+
+	/**
+     * @return the $updatedAt
+     */
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
+	/**
+     * @param field_type $createdAt
+     */
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
+	/**
+     * @param field_type $updatedAt
+     */
+    public function setUpdatedAt($updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
 
 	public function __construct()
 	{

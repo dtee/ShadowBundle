@@ -39,21 +39,28 @@ class MainController
         $ids = $container->getServiceIds();
         $assetsHelper = $this->get('templating.helper.assets');
 
-        ve($assetsHelper);
-
-        sort($ids);
-        ve($ids);
-
 		$game = new Game();
-		$game->setName('test');
+		$game->setName('test2');
 		$validator = $this->get('validator');
 
 		$player = new PlayerCharacter();
-		$player->setCharacter('fu-ka1');
+		$player->setCharacter('fu-ka');
 		$player->setUsername('dtee');
 		$game->addPlayer($player);
 
+		$player = new PlayerCharacter();
+		$player->setCharacter('unknown');
+		$player->setUsername('slert');
+		$game->addPlayer($player);
+
 		$errorList = $validator->validate($game);
+		$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
+		foreach ($this->games as $game)
+		{
+		    $game->setCreatedAt(new \DateTime());
+		    $dm->persist($game);
+		}
+		$dm->flush();
 
 		ve($errorList);
 	}
@@ -64,30 +71,22 @@ class MainController
 	 */
 	public function indexAction()
 	{
-		$key = 'games_' . count($this->games);
-		if (function_exists('apc_fetch'))
+    	$manager = $this->get('shadow.manager');
+		$response = parent::getGameResponse();
+		if (!$response->isEmpty())
 		{
-			$cache = new \Doctrine\Common\Cache\ApcCache();
-		}
-		else
-		{
-			$cache = new \Doctrine\Common\Cache\ArrayCache();
+    	    $games = $manager->getAllGames();
+    		$statProvider = new StatsProvider($games);
+    		$charts = $this->getStatsOverTime($games, $statProvider->getPlayerStats());
+
+    		$view = 'ShadowBundle:Main:index.html.twig';
+    		$content = $this->renderView($view, array(
+    			'charts' => $charts,
+    		));
+    		$response->setContent($content);
 		}
 
-		if (!$charts = $cache->fetch($key))
-		{
-			$charts = $this->getStatsOverTime($this->games, $this->players);
-			$cache->save($key, $charts);
-		}
-
-		return array(
-			'games' => $this->games,
-			'factions' => $this->factions,
-			'charts' => $charts,
-			'players' => $this->players,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats
-		);
+		return $response;
 	}
 
 	/**
@@ -247,13 +246,24 @@ class MainController
 	 */
 	public function gamesAction()
 	{
-		return array(
-			'chars' => $this->chars,
-			'factions' => $this->factions,
-			'games' => array_reverse($this->games, true),
-			'players' => $this->players,
-			'charsStats' => $this->charsStats
-		);
+    	$manager = $this->get('shadow.manager');
+		$response = parent::getGameResponse();
+		if (!$response->isEmpty())
+		{
+        	$manager = $this->get('shadow.manager');
+        	$games = $manager->getAllGames();
+        	$statProvider = new StatsProvider($games);
+
+        	$view = 'ShadowBundle:Main:games.html.twig';
+    		$content = $this->renderView($view, array(
+    			'players' => $statProvider->getPlayerStats(),
+		    	'games' => array_reverse($manager->getAllGames()),
+    		));
+
+    		$response->setContent($content);
+		}
+
+		return $response;
 	}
 
 	/**
@@ -262,14 +272,26 @@ class MainController
 	 */
 	public function playerAction($id)
 	{
-		return array(
-			'games' => $this->games,
-			'factions' => $this->factions,
-			'players' => $this->players,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats,
-			'player' => $this->players[$id]
-		);
+    	$manager = $this->get('shadow.manager');
+		$response = parent::getGameResponse();
+
+		if (!$response->isEmpty())
+		{
+        	$manager = $this->get('shadow.manager');
+        	$games = $manager->getAllGames();
+        	$statProvider = new StatsProvider($games);
+
+        	$view = 'ShadowBundle:Main:player.html.twig';
+        	$players = $statProvider->getPlayerStats();
+    		$content = $this->renderView($view, array(
+    			'players' => $players,
+				'player' => $players[$id]
+    		));
+
+    		$response->setContent($content);
+		}
+
+		return $response;
 	}
 
 	/**
@@ -278,13 +300,23 @@ class MainController
 	 */
 	public function playersAction()
 	{
-		return array(
-			'games' => $this->games,
-			'factions' => $this->factions,
-			'players' => $this->players,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats
-		);
+    	$manager = $this->get('shadow.manager');
+		$response = parent::getGameResponse();
+		if (!$response->isEmpty())
+		{
+        	$manager = $this->get('shadow.manager');
+        	$games = $manager->getAllGames();
+        	$statProvider = new StatsProvider($games);
+
+        	$view = 'ShadowBundle:Main:players.html.twig';
+    		$content = $this->renderView($view, array(
+    			'players' => $statProvider->getPlayerStats(),
+    		));
+
+    		$response->setContent($content);
+		}
+
+		return $response;
 	}
 
 	/**
