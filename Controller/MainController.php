@@ -219,11 +219,6 @@ class MainController
 			}
 		}
 
-        $params =  array(
-        	'formView' => $form->createView(),
-        	'playerNames' => array_keys($this->players),
-        	'characterNames' => array_keys($this->chars));
-
 		if ($request->isXmlHttpRequest())
 		{
         	$errorsProvider = $this->get('form.errors');
@@ -232,6 +227,16 @@ class MainController
 		}
 		else
 		{
+        	$manager = $this->get('shadow.manager');
+        	$games = $manager->getAllGames();
+        	$statProvider = new StatsProvider($games);
+        	$chars = $manager->getCharacters();
+
+            $params =  array(
+            	'formView' => $form->createView(),
+            	'playerNames' => array_keys($statProvider->getPlayerStats()),
+            	'characterNames' => array_keys($chars));
+
 			$content = $this->renderView(
 				'ShadowBundle:Main:gameCreate.html.twig', $params);
 		}
