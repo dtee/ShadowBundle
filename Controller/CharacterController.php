@@ -33,11 +33,16 @@ class CharacterController
 	public function charAction($charName)
 	{
     	$manager = $this->get('shadow.manager');
-
 		$formFactory = $this->get('form.factory');
 		$request = $this->get('request');
-		$char = $this->chars[$charName];
-		$factionChoices = array_keys($this->factions);
+
+    	$chars = $manager->getCharacters();
+		$games = $manager->getAllGames();
+        $statProvider = new StatsProvider($games);
+        $factions = $statProvider->getFactionStats();
+		$char = $chars[$charName];
+
+		$factionChoices = array_keys($factions);
 		$factionChoices = array_combine($factionChoices, $factionChoices);
 
 		$form = $formFactory->createBuilder('form', $char)
@@ -66,19 +71,6 @@ class CharacterController
 				$content = json_encode($retVal);
 			}
 		}
-
-		$params = array(
-			'char' => $char,
-			'charStats' => $this->charsStats[$charName],
-			'formView' => $form->createView(),
-
-			'games' => $this->games,
-			'factions' => $this->factions,
-			'players' => $this->players,
-			'chars' => $this->chars,
-			'charsStats' => $this->charsStats,
-		);
-
 		if ($request->isXmlHttpRequest())
 		{
         	$errorsProvider = $this->get('form.errors');
@@ -87,6 +79,14 @@ class CharacterController
 		}
 		else
 		{
+		    $charStats = $statProvider->getCharacterStats();
+		    $charStats = $charStats[$charName];
+    		$params = array(
+    			'formView' => $form->createView(),
+    		    'charStats' => $charStats,
+    		    'char' => $char
+    		);
+
 			$content = $this->renderView(
 				'ShadowBundle:Character:character.html.twig', $params);
 		}
@@ -102,19 +102,28 @@ class CharacterController
 	public function indexAction()
 	{
     	$manager = $this->get('shadow.manager');
+		$response = parent::getGameResponse();
 
-		$renderer = $this->get('grid.renderer.jq_grid');
-		$gridSource = $this->get('grid.source.character');
-		$renderer->bind($gridSource);
+		if (!$response->isEmpty())
+		{
+    		$renderer = $this->get('grid.renderer.jq_grid');
+    		$gridSource = $this->get('grid.source.character');
+    		$renderer->bind($gridSource);
 
-		$games = $manager->getAllGames();
-        $statProvider = new StatsProvider($games);
+    		$games = $manager->getAllGames();
+            $statProvider = new StatsProvider($games);
+        	$view = 'ShadowBundle:Character:index.html.twig';
 
-		return array(
-			'grid' => $renderer,
-			'chars' => $manager->getCharacters(),
-			'charsStats' => $statProvider->getCharacterStats()
-		);
+    		$content = $this->renderView($view, array(
+    			'grid' => $renderer,
+    			'chars' => $manager->getCharacters(),
+    			'charsStats' => $statProvider->getCharacterStats()
+    		));
+
+    		$response->setContent($content);
+		}
+
+		return $response;
 	}
 }
 
