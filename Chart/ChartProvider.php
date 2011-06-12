@@ -46,8 +46,8 @@ class ChartProvider
 
         foreach ($chars as $char) {
             $categories[] = $char->name;
-            $data['lost'][] = $char->totalWin;
-            $data['won'][] = $char->totalPlayed;
+            $data['lost'][] = $char->totalPlayed - $char->totalWin;
+            $data['won'][] = $char->totalWin;
         }
 
         $chart = new BarChart('Characters', $data, $categories);
