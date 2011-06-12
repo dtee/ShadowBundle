@@ -77,9 +77,8 @@ class MainController extends AbstractController
         {
             $chartProvider = $this->get('shadow.chart_provider');
             $charts = $chartProvider->getPlayerStatsOverTime();
-            $factionChart = $chartProvider->getPlayerFactionDistrubution();
-
-            $charts['faction'] = $factionChart;
+            $charts['faction'] = $chartProvider->getPlayerFactionDistribution();
+            $charts['characters'] = $chartProvider->getCharacterWinDistribution();
 
             $view = 'ShadowBundle:Main:index.html.twig';
             $content = $this->renderView($view, array(

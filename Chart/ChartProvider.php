@@ -19,7 +19,7 @@ class ChartProvider
         $this->statsProvider = new StatsProvider($this->games);
     }
 
-    public function getPlayerFactionDistrubution()
+    public function getPlayerFactionDistribution()
     {
         $allPlayers = $this->statsProvider->getPlayerStats();
         $data = array();
@@ -35,6 +35,22 @@ class ChartProvider
         }
 
         $chart = new BarChart('Faction', $data['played'], $categories);
+
+        return $chart;
+    }
+
+    public function getCharacterWinDistribution() {
+        $chars = $this->statsProvider->getCharacterStats();
+        $data = array();
+        $categories = array();
+
+        foreach ($chars as $char) {
+            $categories[] = $char->name;
+            $data['lost'][] = $char->totalWin;
+            $data['won'][] = $char->totalPlayed;
+        }
+
+        $chart = new BarChart('Characters', $data, $categories);
 
         return $chart;
     }

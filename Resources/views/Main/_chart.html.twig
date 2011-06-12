@@ -27,11 +27,11 @@
 			}
 			else {
 				options.tooltip.formatter = percentageFormatter;
+				options.yAxis.labels = {};
+				options.yAxis.labels.formatter = function() {
+					return this.value + '%';
+				};
 			}
-			options.yAxis.labels = {};
-			options.yAxis.labels.formatter = function() {
-				return this.value + '%';
-			};
 			
 			chart = new Highcharts.Chart(options);
 		{% endfor %}
