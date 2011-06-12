@@ -1,25 +1,34 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-	
-    <services>
-    	<!-- Register asset extension so that user could use jumbo filter -->
-        
-        <!-- Validators -->
-        <service id="shadow.unique.character" class="Odl\ShadowBundle\Validator\Constraints\CharacterValidator">
-		    <argument type="service" id="doctrine.odm.mongodb.default_document_manager" />
-		    <tag name="validator.constraint_validator" alias="sh_character" />
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+		<!-- Register asset extension so that user could use jumbo filter -->
+
+		<!-- Validators -->
+		<service id="shadow.unique.character"
+			class="Odl\ShadowBundle\Validator\Constraints\CharacterValidator">
+			<argument type="service"
+				id="doctrine.odm.mongodb.default_document_manager" />
+			<tag name="validator.constraint_validator" alias="sh_character" />
 		</service>
-		
-        <service id="shadow.balanced_team" class="Odl\ShadowBundle\Validator\Constraints\BalancedTeamValidator">
-		    <argument type="service" id="doctrine.odm.mongodb.default_document_manager" />
-		    <tag name="validator.constraint_validator" alias="sh_balanced_team" />
+
+		<service id="shadow.balanced_team"
+			class="Odl\ShadowBundle\Validator\Constraints\BalancedTeamValidator">
+			<argument type="service"
+				id="doctrine.odm.mongodb.default_document_manager" />
+			<tag name="validator.constraint_validator" alias="sh_balanced_team" />
 		</service>
-		
-        <service id="shadow.manager" class="Odl\ShadowBundle\Model\ObjectManager">
-		    <argument type="service" id="doctrine.odm.mongodb.default_document_manager" />
+
+		<service id="shadow.manager" class="Odl\ShadowBundle\Model\ObjectManager">
+			<argument type="service"
+				id="doctrine.odm.mongodb.default_document_manager" />
 		</service>
-    </services>
+
+		<service id="shadow.chart_provider" class="Odl\ShadowBundle\Chart\ChartProvider">
+			<argument type="service" id="shadow.manager" />
+		</service>
+	</services>
 </container>
