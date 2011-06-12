@@ -14,7 +14,7 @@ class BarChart extends Chart
         );
 
         $options['tooltip'] = array(
-                'enabled' => false
+                'enabled' => true
         );
 
         $options['xAxis'] = array(
@@ -29,7 +29,7 @@ class BarChart extends Chart
         );
 
         $options['chart']['defaultSeriesType'] = 'bar';
-        $options['chart']['zoomType'] = 'y';
+        $options['chart']['zoomType'] = 'x';
 
         return $options;
     }

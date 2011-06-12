@@ -19,7 +19,15 @@
 		
 		{% for chart in charts %}
 			var options = {{ chart.getChartOptions() | json_encode | raw }};
-			options.tooltip.formatter = percentageFormatter;
+			if (options.chart.defaultSeriesType == 'bar') {
+				options.tooltip.formatter = function() {
+				    return ''+
+				        this.series.name +': '+ this.y +' ('+ Math.round(this.percentage) +'%)';
+				 }
+			}
+			else {
+				options.tooltip.formatter = percentageFormatter;
+			}
 			options.yAxis.labels = {};
 			options.yAxis.labels.formatter = function() {
 				return this.value + '%';
