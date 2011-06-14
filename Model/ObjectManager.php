@@ -52,7 +52,6 @@ class ObjectManager
     public function getLastModifiedGameTime()
     {
         $game = $this->dm->createQueryBuilder('Odl\ShadowBundle\Documents\Game')
-            ->select('updatedAt')
             ->sort('updatedAt', 'desc')
             ->getQuery()
             ->getSingleResult();
