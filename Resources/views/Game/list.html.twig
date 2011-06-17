@@ -8,10 +8,10 @@
 {% spaceless %}
 	<h3>All Games 
 	{% if is_granted('ROLE_USER') %}
-		(<a href="{{ path('odl_shadow_main_gamecreate') }}">Add</a>)
+		(<a href="{{ path('odl_shadow_game_create') }}">Add</a>)
 	{% endif %}
 	</h3>
 {% endspaceless %}
 	
-	{% include 'ShadowBundle:Main:_games.html.twig' with {'games': games, 'players': players} %}
+	{% include 'ShadowBundle:Game:_games.html.twig' with {'games': games, 'players': players} %}
 {% endblock %}

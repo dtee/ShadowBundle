@@ -18,17 +18,17 @@ class Game
      * @ODM\id
      */
     protected $id;
-    
+
     /**
      * @ODM\Date
      */
     protected $playTime;
-    
+
     /**
      * @ODM\String
      */
     protected $summary;
-    
+
     /**
      * @ODM\String
      * @ODM\Index(unique=true, order="asc")
@@ -36,24 +36,31 @@ class Game
      * @Assert\MinLength(3)
      */
     protected $name;
-    
+
     /**
      * @var PlayerCharacter
      * @ODM\EmbedMany(targetDocument="PlayerCharacter")
      */
     protected $players;
-    
+
     /**
      * @ODM\Field(type="date")
      * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
-    
+
     /**
      * @ODM\Field(type="date")
      * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;
+
+    /**
+     * UserId of the person that updated this last
+     *
+     * @ODM\String
+     */
+    protected $updatedBy;
 
     /**
      * @return the $createdAt
@@ -171,15 +178,15 @@ class Game
             {
                 continue;
             }
-            
+
             if (isset($cache[$playerUsername]))
             {
                 return true;
             }
-            
+
             $cache[$playerUsername] = 1;
         }
-        
+
         return false;
     }
 
@@ -196,21 +203,21 @@ class Game
             {
                 continue;
             }
-            
+
             if (isset($cache[$charname]))
             {
                 if ($cache[$charname] == 2)
                     return true;
-                
+
                 $cache[$charname] += 1;
             }
             else
             {
                 $cache[$charname] = 1;
             }
-        
+
         }
-        
+
         return false;
     }
 
@@ -223,12 +230,12 @@ class Game
         foreach ( $this->getPlayers() as $player )
         {
             $faction = $player->getFaction();
-            
+
             if (!$faction)
             {
                 continue;
             }
-            
+
             $cache[$faction][] = $player;
 		}
 

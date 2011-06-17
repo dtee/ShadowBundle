@@ -3,9 +3,9 @@ namespace Odl\ShadowBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Odl\ShadowBundle\Documents\Character;
-
 use Odl\ShadowBundle\Documents\PlayerCharacter;
 use Odl\ShadowBundle\Form\PlayerCharacterType;
 use Odl\ShadowBundle\Chart\Chart;
@@ -23,7 +23,6 @@ use Dtc\GridBundle\Grid\Source\DocumentGridSource;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class MainController extends AbstractController
 {
@@ -89,21 +88,6 @@ class MainController extends AbstractController
         }
 
         return $response;
-    }
-
-    /**
-     * @Route("/game/{id}");
-     * @Template()
-     */
-    public function gameAction($id)
-    {
-        return array(
-                'games' => $this->games,
-                'factions' => $this->factions,
-                'players' => $this->players,
-                'chars' => $this->chars,
-                'charsStats' => $this->charsStats
-        );
     }
 
     /**
@@ -250,32 +234,6 @@ class MainController extends AbstractController
         }
 
         $response->setContent($content);
-        return $response;
-    }
-
-    /**
-     * @Route("/games");
-     * @Template()
-     */
-    public function gamesAction()
-    {
-        $manager = $this->get('shadow.manager');
-        $response = parent::getGameResponse();
-        if (!$response->isEmpty())
-        {
-            $manager = $this->get('shadow.manager');
-            $games = $manager->getAllGames();
-            $statProvider = new StatsProvider($games);
-
-            $view = 'ShadowBundle:Main:games.html.twig';
-            $content = $this->renderView($view, array(
-                    'players' => $statProvider->getPlayerStats(),
-                    'games' => array_reverse($manager->getAllGames())
-            ));
-
-            $response->setContent($content);
-        }
-
         return $response;
     }
 

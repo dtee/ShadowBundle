@@ -49,10 +49,27 @@ class ObjectManager
         return $this->games;
     }
 
+    /**
+     * Wrapper function which also sets chars
+     *
+     * @param unknown_type $id
+     */
+    public function getGame($id) {
+        $game = $this->getGameRepository()->find($id);
+        if ($game) {
+            $chars = $this->getCharacters();
+            foreach ( $game->getPlayers() as $player )
+            {
+                $player->char = $chars[$player->getCharacter()];
+            }
+        }
+
+        return $game;
+    }
+
     public function getLastModifiedGameTime()
     {
         $game = $this->dm->createQueryBuilder('Odl\ShadowBundle\Documents\Game')
-            ->select('updatedAt')
             ->sort('updatedAt', 'desc')
             ->getQuery()
             ->getSingleResult();
