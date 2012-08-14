@@ -1,0 +1,23 @@
+{
+    "name": "odl/shadowbundle",
+    "description": "Score tracker for shadow hunters",
+    "keywords": ["shadow hunters"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Tee"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*"
+    },
+    "require-dev": {
+        "symfony/yaml": "2.*"
+    },
+    "autoload": {
+        "psr-0": { "Odl\\ShadowBundle": "" }
+    },
+    "target-dir": "Odl/ShadowBundle"
+}
+
