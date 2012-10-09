@@ -79,7 +79,7 @@ class MainController extends AbstractController
             $charts['faction'] = $chartProvider->getPlayerFactionDistribution();
             $charts['characters'] = $chartProvider->getCharacterWinDistribution();
 
-            $view = 'ShadowBundle:Main:index.html.twig';
+            $view = 'OdlShadowBundle:Main:index.html.twig';
             $content = $this->renderView($view, array(
                     'charts' => $charts
             ));
@@ -230,7 +230,7 @@ class MainController extends AbstractController
                     'characterNames' => array_keys($chars)
             );
 
-            $content = $this->renderView('ShadowBundle:Main:gameCreate.html.twig', $params);
+            $content = $this->renderView('OdlShadowBundle:Main:gameCreate.html.twig', $params);
         }
 
         $response->setContent($content);
@@ -252,7 +252,7 @@ class MainController extends AbstractController
             $games = $manager->getAllGames();
             $statProvider = new StatsProvider($games);
 
-            $view = 'ShadowBundle:Main:player.html.twig';
+            $view = 'OdlShadowBundle:Main:player.html.twig';
             $players = $statProvider->getPlayerStats();
             $content = $this->renderView($view, array(
     			'players' => $players,
@@ -279,7 +279,7 @@ class MainController extends AbstractController
         	$games = $manager->getAllGames();
         	$statProvider = new StatsProvider($games);
 
-        	$view = 'ShadowBundle:Main:players.html.twig';
+        	$view = 'OdlShadowBundle:Main:players.html.twig';
     		$content = $this->renderView($view, array(
     			'players' => $statProvider->getPlayerStats(),
     		));

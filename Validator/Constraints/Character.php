@@ -3,6 +3,10 @@ namespace Odl\ShadowBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * @Annotation
+ *
+ */
 class Character
 	extends Constraint
 {
@@ -12,7 +16,7 @@ class Character
     public function __construct(){
     	parent::__construct();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -20,7 +24,7 @@ class Character
     {
         return self::PROPERTY_CONSTRAINT;
     }
-    
+
     public function validatedBy()
     {
     	return 'sh_character';

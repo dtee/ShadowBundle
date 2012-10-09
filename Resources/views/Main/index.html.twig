@@ -1,10 +1,10 @@
-{% extends "ShadowBundle::layout.html.twig" %}
+{% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title "Shadow Hunters!!" %}
 
 {% block content %}
 	<h3>Players Chart: </h3>
-	{% include 'ShadowBundle:Main:_chart.html.twig' with 
+	{% include 'OdlShadowBundle:Main:_chart.html.twig' with 
 		{'charts': charts}
 	%}
 {% endblock %}

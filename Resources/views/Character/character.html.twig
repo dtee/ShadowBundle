@@ -1,5 +1,5 @@
-{% extends "ShadowBundle::layout.html.twig" %}
-{% form_theme formView "ShadowBundle:Form:fields_game.html.twig" %}
+{% extends "OdlShadowBundle::layout.html.twig" %}
+{% form_theme formView "OdlShadowBundle:Form:fields_game.html.twig" %}
 
 {% block title %}
 	Character: {{ char.name }}
@@ -9,7 +9,7 @@
 	<h3>Character: {{ char.name }}</h3>
 	
 	<div class="char">
-		{% include 'ShadowBundle:Character:_char.html.twig' with {'char': charStats} %}
+		{% include 'OdlShadowBundle:Character:_char.html.twig' with {'char': charStats} %}
 	</div>
 	
 	<form id="char-form">

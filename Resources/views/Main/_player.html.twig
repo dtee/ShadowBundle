@@ -1,4 +1,4 @@
-{% extends "ShadowBundle::basestats.html.twig" %}
+{% extends "OdlShadowBundle::basestats.html.twig" %}
 {% set stats = player %}
 
 {% block name %}
@@ -14,6 +14,6 @@
 	{{ parent() }}
 	
 	{% for faction in player.factions %}
-		{% include 'ShadowBundle:Main:_player_faction.html.twig' with {'faction': faction} %}
+		{% include 'OdlShadowBundle:Main:_player_faction.html.twig' with {'faction': faction} %}
 	{% endfor %}
 {% endblock %}

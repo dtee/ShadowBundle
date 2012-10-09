@@ -39,7 +39,7 @@ class GameController
             $games = $manager->getAllGames();
             $statProvider = new StatsProvider($games);
 
-            $view = 'ShadowBundle:Game:list.html.twig';
+            $view = 'OdlShadowBundle:Game:list.html.twig';
             $content = $this->renderView($view, array(
                     'players' => $statProvider->getPlayerStats(),
                     'games' => array_reverse($manager->getAllGames())
@@ -152,7 +152,7 @@ class GameController
                     'characterNames' => array_keys($chars)
             );
 
-            $content = $this->renderView('ShadowBundle:Game:gameCreateEdit.html.twig', $params);
+            $content = $this->renderView('OdlShadowBundle:Game:gameCreateEdit.html.twig', $params);
         }
 
         $response->setContent($content);

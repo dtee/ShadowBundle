@@ -14,17 +14,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class AbstractController
-	extends Controller
+    extends Controller
 {
     protected function getGameResponse() {
 
-		$request = $this->get('request');
-    	$manager = $this->get('shadow.manager');
+        $request = $this->get('request');
+        $manager = $this->get('shadow.manager');
 
-		$response = new Response();
-    	$lastModifedDate = $manager->getLastModifiedGameTime();
-/*		$response->setLastModified($lastModifedDate);
-	    $response->isNotModified($request);*/
+        $response = new Response();
+        $lastModifedDate = $manager->getLastModifiedGameTime();
+        $response->setLastModified($lastModifedDate);
+        $response->isNotModified($request);
+
         return $response;
     }
 }

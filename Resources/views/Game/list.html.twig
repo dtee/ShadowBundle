@@ -1,4 +1,4 @@
-{% extends "ShadowBundle::layout.html.twig" %}
+{% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
 	Games
@@ -13,5 +13,5 @@
 	</h3>
 {% endspaceless %}
 	
-	{% include 'ShadowBundle:Game:_games.html.twig' with {'games': games, 'players': players} %}
+	{% include 'OdlShadowBundle:Game:_games.html.twig' with {'games': games, 'players': players} %}
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "ShadowBundle::layout.html.twig" %}
+{% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
 	Games
@@ -10,7 +10,7 @@
 	
 	<div class="clearfix games">
 		<div class="game">
-		{% include 'ShadowBundle:Game:_game.html.twig' with {'game': game} %}
+		{% include 'OdlShadowBundle:Game:_game.html.twig' with {'game': game} %}
 		</div>
 		<div class="game">
 			<h3>Summary</h3>

@@ -3,6 +3,10 @@ namespace Odl\ShadowBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * @Annotation
+ *
+ */
 class BalancedTeam
 	extends Constraint
 {

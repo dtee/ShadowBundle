@@ -1,0 +1,14 @@
+_shadow:
+    resource: "@OdlShadowBundle/Controller/MainController.php"
+    type:     annotation
+    prefix:  /
+
+shadow_char:
+    resource: "@OdlShadowBundle/Controller/CharacterController.php"
+    type:     annotation
+    prefix:  /char
+
+shadow_game:
+    resource: "@OdlShadowBundle/Controller/GameController.php"
+    type:     annotation
+    prefix:  /game

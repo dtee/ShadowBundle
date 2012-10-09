@@ -1,46 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Demo Bundle{% endblock %}</title>
-        {{ ['css_lib', 'shadow_css', 'js_lib', 'shadow_js'] | jumbo}}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        <div class="container">
-            {% block content_header %}
-                <ul class="menu">
-                    {% block content_header_more %}
-                        <li><a href="{{ path('odl_shadow_main_index') }}">Home</a></li>
-                        <li><a href="{{ path('odl_shadow_main_players') }}">Players</a></li>
-                        <li><a href="{{ path('odl_shadow_character_index') }}">Characters</a></li>
-                        <li><a href="{{ path('odl_shadow_game_list') }}">Games</a></li>
-                    {% endblock %}
-                </ul>
-                
-                <ul class="menu right">
-                	{% include 'OdlAuthBundle:Auth:_profile.html.twig' with {'app': app} %}
-                </ul>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>{% block title %}Demo Bundle{% endblock %}</title>
+		{% stylesheets
+			'@OdlShadowBundle/Resources/public/lib/bootstrap/css/*min.css'
+			'@OdlShadowBundle/Resources/public/lib/jquery-ui/css/ui-lightness/*min.css'
+			'@OdlShadowBundle/Resources/public/css/*.less'
 
-                <div style="clear: both"></div>
-            {% endblock %}
+			filter='cssrewrite, lessphp'
+			output="generated/css/*.css"
+		%}
+			<link rel="stylesheet" href="{{ asset_url }}" />
+		{% endstylesheets %}
 
-            <div class="content">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
-        {{ facebook_initialize({'xfbml': true}) }}
-        <script type="text/javascript">
+		{% javascripts
+			'@OdlShadowBundle/Resources/public/lib/jquery-ui/js/jquery-1.8.2.js'
+			'@OdlShadowBundle/Resources/public/lib/highcharts/js/highcharts.js'
+			'@OdlShadowBundle/Resources/public/lib/jquery-ui/js/jquery-ui-1.9.0.custom.min.js'
+			'@OdlShadowBundle/Resources/public/js/*.js'
+
+			output="generated/js/shadow_*"
+		%}
+			<script type="text/javascript" src="{{ asset_url }}"></script>
+		{% endjavascripts %}
+
+		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+	</head>
+	<body>
+		 <div class="navbar navbar-inverse navbar-fixed-top">
+			 <div class="navbar-inner">
+				<div class="container">
+					<div class="nav-collapse collapse">
+					{% block content_header %}
+						<ul class="nav menu">
+							{% block content_header_more %}
+								<li><a href="{{ path('odl_shadow_main_index') }}">Home</a></li>
+								<li><a href="{{ path('odl_shadow_main_players') }}">Players</a></li>
+								<li><a href="{{ path('odl_shadow_character_index') }}">Characters</a></li>
+								<li><a href="{{ path('odl_shadow_game_list') }}">Games</a></li>
+							{% endblock %}
+						</ul>
+					{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="">
+			<div class="content">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+
+		{{ facebook_initialize({'xfbml': true}) }}
+		<script type="text/javascript">
 			  var _gaq = _gaq || [];
 			  _gaq.push(['_setAccount', 'UA-23644399-1']);
 			  _gaq.push(['_trackPageview']);
-			
+
 			  (function() {
-			    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			  })();
 		</script>
-    </body>
+	</body>
 </html>

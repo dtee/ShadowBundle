@@ -1,4 +1,4 @@
-{% extends "ShadowBundle::layout.html.twig" %}
+{% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
 	Characters
@@ -10,7 +10,7 @@
 	
 	{% for char in charsStats %}
 		<div>
-		{% include 'ShadowBundle:Character:_char.html.twig' with {'char': char} %}
+		{% include 'OdlShadowBundle:Character:_char.html.twig' with {'char': char} %}
 		</div>
 	{% endfor %}
 {% endblock %}

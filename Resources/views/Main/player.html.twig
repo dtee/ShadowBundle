@@ -1,4 +1,4 @@
-{% extends "ShadowBundle::layout.html.twig" %}
+{% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
 	{{ player.name }}
@@ -6,11 +6,11 @@
 
 {% block content %}
 	<h3>Player: {{ player.name }} </h3>
-	{% include 'ShadowBundle:Main:_player.html.twig' with {'player': player} %}
+	{% include 'OdlShadowBundle:Main:_player.html.twig' with {'player': player} %}
 	<hr/>
 	<div>
 		<h3>Games Played: {{ player.games | length }}</h3>
-		{% include 'ShadowBundle:Main:_games.html.twig' with 
+		{% include 'OdlShadowBundle:Main:_games.html.twig' with 
 			{'games': player.games, 'players': players} 
 		%}
 	</div>

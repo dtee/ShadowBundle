@@ -88,7 +88,7 @@ class CharacterController
     		);
 
 			$content = $this->renderView(
-				'ShadowBundle:Character:character.html.twig', $params);
+				'OdlShadowBundle:Character:character.html.twig', $params);
 		}
 
 		$response->setContent($content);
@@ -112,7 +112,7 @@ class CharacterController
 
     		$games = $manager->getAllGames();
             $statProvider = new StatsProvider($games);
-        	$view = 'ShadowBundle:Character:index.html.twig';
+        	$view = 'OdlShadowBundle:Character:index.html.twig';
 
     		$content = $this->renderView($view, array(
     			'grid' => $renderer,
