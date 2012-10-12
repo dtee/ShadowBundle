@@ -6,12 +6,15 @@
 
 {% block content %}
 	<h3>Player: {{ player.name }} </h3>
-	{% include 'OdlShadowBundle:Main:_player.html.twig' with {'player': player} %}
+	<div class="clearfix">
+		{% include 'OdlShadowBundle:Main:_player.html.twig' with {'player': player} %}
+	</div>
+
 	<hr/>
 	<div>
 		<h3>Games Played: {{ player.games | length }}</h3>
-		{% include 'OdlShadowBundle:Main:_games.html.twig' with 
-			{'games': player.games, 'players': players} 
+		{% include 'OdlShadowBundle:Game:_games.html.twig' with
+			{'games': player.games, 'players': players}
 		%}
 	</div>
 {% endblock %}
