@@ -126,7 +126,7 @@ class StatsProvider
 
 					$playerStats->totalPlayed ++;
 					$playerStats->factions[$faction]->totalPlayed ++;
-					
+
 					if ($player->isAlive) {
 						$playerStats->totalAlive++;
 						$playerStats->factions[$faction]->totalAlive ++;

@@ -1,28 +1,28 @@
 {% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
-	Games
+    Games
 {% endblock %}
 
 {% block content %}
 {% spaceless %}
-	<h3> Game Details</h3>
-	
-	<div class="clearfix games">
-		<div class="game">
-		{% include 'OdlShadowBundle:Game:_game.html.twig' with {'game': game} %}
-		</div>
-		<div class="game">
-			<h3>Summary</h3>
-			<div class="players">
-				{{ game.getSummary() }}
-			</div>
-		</div>
-	</div>
-	
-	<div class="clearfix">
-		<fb:comments href="{{ path('odl_shadow_game_view', {'id': game.getId()}) }}" num_posts="2" width="680">
-		</fb:comments>
-	</div>
+    <h3> Game Details</h3>
+
+    <div class="clearfix games">
+        <div class="game">
+        {% include 'OdlShadowBundle:Game:_game.html.twig' with {'game': game} %}
+        </div>
+        <div class="game">
+            <h3>Summary</h3>
+            <div class="players">
+                {{ game.getSummary() }}
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix">
+        <fb:comments href="{{ path('odl_shadow_game_view', {'id': game.getId()}) }}" num_posts="2" width="680">
+        </fb:comments>
+    </div>
 {% endspaceless %}
 {% endblock %}

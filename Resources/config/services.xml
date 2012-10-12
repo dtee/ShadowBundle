@@ -8,15 +8,13 @@
         <!-- Validators -->
         <service id="shadow.unique.character"
             class="Odl\ShadowBundle\Validator\Constraints\CharacterValidator">
-            <argument type="service"
-                id="shadow.document_manager" />
+            <argument type="service" id="shadow.document_manager" />
             <tag name="validator.constraint_validator" alias="sh_character" />
         </service>
 
         <service id="shadow.balanced_team"
             class="Odl\ShadowBundle\Validator\Constraints\BalancedTeamValidator">
-            <argument type="service"
-                id="shadow.document_manager" />
+            <argument type="service" id="shadow.document_manager" />
             <tag name="validator.constraint_validator" alias="sh_balanced_team" />
         </service>
 
@@ -27,6 +25,18 @@
 
         <service id="shadow.chart_provider" class="Odl\ShadowBundle\Chart\ChartProvider">
             <argument type="service" id="shadow.manager" />
+        </service>
+
+        <service id="form.error_provider" class="Odl\ShadowBundle\Form\AjaxErrorProvider">
+            <argument type="service" id="translator"></argument>
+        </service>
+
+        <service id="shadow.manager.game" class="Odl\ShadowBundle\Manager\GameManager">
+            <argument type="service" id="shadow.document_manager" />
+        </service>
+
+        <service id="shadow.manager.character" class="Odl\ShadowBundle\Manager\CharacterManager">
+            <argument type="service" id="shadow.document_manager" />
         </service>
     </services>
 </container>

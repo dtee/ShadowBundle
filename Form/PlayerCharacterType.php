@@ -26,7 +26,7 @@ class PlayerCharacterType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'data_class' => 'Odl\Shadowbundle\Documents\PlayerCharacter',
+            'data_class' => 'Odl\ShadowBundle\Documents\PlayerCharacter',
             'error_bubbling' => false
         );
     }

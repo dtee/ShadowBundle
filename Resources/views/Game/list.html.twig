@@ -1,17 +1,20 @@
 {% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
-	Games
+	Shadow Hunter Games
 {% endblock %}
 
 {% block content %}
-{% spaceless %}
-	<h3>All Games 
-	{% if is_granted('ROLE_USER') %}
-		(<a href="{{ path('odl_shadow_game_create') }}">Add</a>)
-	{% endif %}
+	<h3>
+		Games Played
+		<small>
+		{% spaceless %}
+			{% if is_granted('ROLE_USER') %}
+				(<a href="{{ path('odl_shadow_game_create') }}">Add</a>)
+			{% endif %}
+		{% endspaceless %}
+		</small>
 	</h3>
-{% endspaceless %}
-	
+
 	{% include 'OdlShadowBundle:Game:_games.html.twig' with {'games': games, 'players': players} %}
 {% endblock %}

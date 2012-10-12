@@ -2,7 +2,7 @@ Filter By Winners: <span id="winner-filter-total"></span>
 <form id="winner-filter">
 	<input type="checkbox" value="all" id="all-id" checked="checked"/>
 	<label for="all-id">All</label>
-	
+
 	{% for player in players %}
 		<input type="checkbox" id="{{ player.name }}-id" value="{{ player.name }}"/>
 		<label for="{{ player.name }}-id">{{ player.name }}</label>

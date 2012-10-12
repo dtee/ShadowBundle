@@ -1,4 +1,5 @@
-{% extends "form_div_layout.html.twig" %}
+{#% extends "form_div_layout.html.twig" %#}
+{% extends "MopaBootstrapBundle:Form:fields.html.twig" %}
 
 {% block form_widget %}
 {% spaceless %}
@@ -10,22 +11,25 @@
 {% endblock form_widget %}
 
 {% block field_row %}
-	{% spaceless %}
-		{% set formTypes = form.get('types') %}
-		{% set name = form.get('name') %}
-		
-	    <div class="{{ formTypes | join(" ") }} {{ name }}" id="{{ form.get('id') }}-container">
-	        {# TODO: would be nice to rename this variable to "field" #}
-	        {{ form_label(form) | raw }}
-	        {{ form_widget(form) }}
-	        {{ form_errors(form) }}
-	        <div class="error hide"></div>
-	    </div>
-	{% endspaceless %}
+    {% spaceless %}
+        {% set formTypes = form.get('types') %}
+        {% set name = form.get('name') %}
+
+        <div class="{{ formTypes | join(" ") }} {{ name }}" id="{{ form.get('id') }}-container">
+            {# TODO: would be nice to rename this variable to "field" #}
+            {{ form_label(form) | raw }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+            <div class="error hide"></div>
+        </div>
+    {% endspaceless %}
 {% endblock field_row %}
 
-{% block field_label %}
-	{% spaceless %}
-	    <label for="{{ id }}" class="">{{ label|trans }}</label>
-	{% endspaceless %}
-{% endblock field_label %}
+{% block checkbox_label %}
+{% endblock %}
+
+{% block player_character_widget %}
+    <div class="span3 gamer">
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}

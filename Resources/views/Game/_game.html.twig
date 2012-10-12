@@ -1,10 +1,9 @@
 <h3>
 	<a title="Details" href="{{ path('odl_shadow_game_view', {'id': game.getId()}) }}">
-		{{ game.getName() }}
+		{{ game.getPlayTime()  | date("m/d/Y") }}
 	</a>
-	 - {{ game.getPlayTime()  | date("m/d/Y") }} 
-	({{ game.getPlayers() | length }} players)
-	
+	<small>({{ game.getPlayers() | length }} players)</small>
+
 	{% if is_granted('ROLE_USER') %}
 	<span class="right">
 		<a href="{{ path('odl_shadow_game_edit', {'id': game.getId()}) }}">Edit</a>
@@ -17,14 +16,14 @@
 	{% set css = player.isWin ? ['won']: [] %}
     {% set css = css|merge(player.getIsAlive() ? []: ['dead']) %}
     {% set css = css|merge(player.getIsLastDeath() ? ['last-dead']: []) %}
-    
+
 	<span class="player {{ css | join(' ')}} {{ player.getUsername() }}">
 		<a href="{{ path('odl_shadow_main_player', {'id' : player.getUsername()}) }}">
 			<span class="username">{{ player.getUsername() }}
 			</span>
 		</a>
 		<span class="charname">
-			{{ player.char.getName() }} 
+			{{ player.char.getName() }}
 			(<span class="{{ player.char.getFaction() }}">{{ player.char.getFaction() }}</span>)
 		</span>
 	</span>

@@ -22,9 +22,9 @@ class AbstractController
         $manager = $this->get('shadow.manager');
 
         $response = new Response();
-        $lastModifedDate = $manager->getLastModifiedGameTime();
-        $response->setLastModified($lastModifedDate);
-        $response->isNotModified($request);
+//         $lastModifedDate = $manager->getLastModifiedGameTime();
+//         $response->setLastModified($lastModifedDate);
+//         $response->isNotModified($request);
 
         return $response;
     }

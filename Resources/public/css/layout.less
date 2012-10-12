@@ -1,4 +1,4 @@
-@import 'elements.less';
+@import "../lib/elements.less";
 
 @background: #EFEFEF;
 @border: 1px solid #DFDFDF;
@@ -7,78 +7,88 @@
 html, body {
     font-size: 14px;
     background: @background;
-	color: #313131;
-	font-family: @font-family;
+    color: #313131;
+    font-family: @font-family;
 }
 
 body {
-	@bw-gradient(@background, 180, 255);
-}
-
-a {
-    color: #08C;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.main {
-	padding: 1px solid red;
-	.content {
-		border: 1px solid green;
-	}
+    @bw-gradient(@background, 180, 255);
 }
 
 body {
-	padding-top: 60px;
-	padding-bottom: 40px;
+    padding-top: 60px;
+    padding-bottom: 40px;
 }
 
-.user_profile {
-	width: 260px;
-	overflow: hidden;
-	font-size: 12px;
+#add_game {
+	.gamer > div {
+		padding: 6px;
+		border: 1px solid gray;
+		margin-bottom: 10px;
 
-	.user_info {
-		display: table-cell;
-		vertical-align: top;
-		width: 10000px;
-		text-align: right;
-		padding-right: 10px;
-	}
-
-	.profile_image {
-		float: right;
-	}
-}
-
-.container {
-	.header {
-		position: relative;
-		padding: 30px 30px 20px 30px;
-
-		.user_profile {
-			margin-top: 5px;
-			float: right;
+		input[type="text"] {
+			width: 188px;
 		}
 	}
 
-	.content {
-		padding: 40px;
-		border: @border;
-		background-color: #fff;
-		@rounded(16px);
-    	margin-bottom: 20px;
-		@drop-shadow(5px, 8px);
+	.gamer {
+		&.hunter > div {
+			background-color: #46a546;
+		}
+
+		&.shadow > div {
+			background-color: #9d261d;
+		}
+
+		&.neutral > div {
+			background-color: #f89406;
+		}
 	}
 }
 
+.user_profile {
+    width: 260px;
+    overflow: hidden;
+    font-size: 12px;
+
+    .user_info {
+        display: table-cell;
+        vertical-align: top;
+        width: 10000px;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .profile_image {
+        float: right;
+    }
+}
+
+.container {
+    .header {
+        position: relative;
+        padding: 30px 30px 20px 30px;
+
+        .user_profile {
+            margin-top: 5px;
+            float: right;
+        }
+    }
+
+    .content {
+        border: @border;
+        padding: 10px;
+        background-color: #fff;
+        @rounded(16px);
+        margin-bottom: 20px;
+        @drop-shadow(5px, 8px);
+    }
+}
+
 form {
-	.error {
-		display: none;
-	}
+    .error {
+        display: none;
+    }
 }
 
 ul.menu
@@ -88,8 +98,8 @@ ul.menu
     padding-left: 0;
 
     li {
-	    padding-left: 0;
-	    margin-right: 10px;
-	    display: inline;
-	}
+        padding-left: 0;
+        margin-right: 10px;
+        display: inline;
+    }
 }

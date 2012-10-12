@@ -1,16 +1,15 @@
 {% extends "OdlShadowBundle::layout.html.twig" %}
 
 {% block title %}
-	Characters
+    Characters
 {% endblock %}
 
 {% block content %}
-	<h3>All Characters </h3>
-	{{ grid.render() | raw }}
-	
-	{% for char in charsStats %}
-		<div>
-		{% include 'OdlShadowBundle:Character:_char.html.twig' with {'char': char} %}
-		</div>
-	{% endfor %}
+    <h3>All Characters </h3>
+
+    {% for char in charsStats %}
+        <div>
+        {% include 'OdlShadowBundle:Character:_char.html.twig' with {'char': char} %}
+        </div>
+    {% endfor %}
 {% endblock %}

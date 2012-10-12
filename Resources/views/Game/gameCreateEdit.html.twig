@@ -6,63 +6,29 @@
 {% endblock %}
 
 {% block content %}
-	<h3>Add new item</h3>
-	
-	<form id="add_game">
-		<div class="clearfix">
-			{{ form_widget(formView) }}
+<div class="container">
+	{% if game.id %}
+		<h3>Edit game</h3>
+	{% else %}
+		<h3>Add a new game</h3>
+	{% endif %}
+
+	<form method="post" id="add_game" data-players="{{ playerNames | json_encode }}" data-characters="{{ characterNames | json_encode }}">
+		{{ form_row(formView.playTime) }}
+		{{ form_row(formView.summary) }}
+
+		<div id="form-players" class="row" data-prototype="{{ form_widget(formView.players.vars.prototype) | e }}">
+			{% for player in formView.players %}
+				{{ form_widget(player) }}
+			{% endfor %}
 		</div>
-		
-		<input type="submit" value="Save" />
+
+		{{ form_errors(formView) }}
+
+		<div class="form-actions">
+			<button class="btn btn-primary">Save </button>
+			<button class="btn new-player" type="button">Add New Player</button>
+		</div>
 	</form>
-	
-	<div id="player_template" style="display:none">
-    	<div class="playercharacter form field" id="new">
-    		<label>Add new player</label>
-    		<div><a href="javascript:void(0)" onclick="addNewPlayer(this)"> Add New???</a></div>
-    	</div>
-	    	
-		<label for="form_players_index" class="">Player Info</label>
-		<div id="form_players_index" name="form[players][index]" required="required">
-			<div class="username text field" id="form_players_index_username-container">
-				<label for="form_players_index_username" class="">Username</label>
-				<input type="text" id="form_players_index_username" name="form[players][index][username]" value="">
-			</div>
-			<div class="text field" id="form_players_index_character-container">
-				<label for="form_players_index_character" class="">Character</label>
-				<input type="text" id="form_players_index_character" name="form[players][index][character]" value="">
-			</div>
-			<div class="checkbox field" id="form_players_index_isWin-container">
-				<label for="form_players_index_isWin" class="">Won?</label>
-				<input type="checkbox" id="form_players_index_isWin" name="form[players][index][isWin]" value="0">
-			</div>
-			<div class="checkbox field" id="form_players_index_isAlive-container">
-				<label for="form_players_index_isAlive" class="">Alive?</label>
-				<input type="checkbox" id="form_players_index_isAlive" name="form[players][index][isAlive]" value="0">
-			</div>
-			<div class="checkbox field" id="form_players_index_isLastDeath-container">
-				<label for="form_players_index_isLastDeath" class="">Last Death?</label>
-				<input type="checkbox" id="form_players_index_isLastDeath" name="form[players][index][isLastDeath]" value="0">
-			</div>
-		</div>
-	</div>
-	
-	<script>
-		var playerNames = {{ playerNames | json_encode |raw }};
-		var charNames = {{ characterNames | json_encode |raw }};
-		
-		$('#add_game').ajaxForm();
-		$('#form_players').append($('#player_template #new'));
-		$('#add_game .collection .text.field input').each(function() {
-			var availableTags = charNames;
-			if ($(this).parent().hasClass('username'))
-				availableTags = playerNames;
-			
-			$(this).autocomplete({
-				source: availableTags,
-				autoFocus: true,
-				delay: 0
-			});
-		});
-	</script>
+</div>
 {% endblock %}

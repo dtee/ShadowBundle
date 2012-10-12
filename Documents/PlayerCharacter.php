@@ -26,7 +26,7 @@ class PlayerCharacter
 	 * @Assert\NotBlank()
 	 * @Assert\MinLength(3)
 	 *
-	 * @assertShadow\Character()
+	 * @AssertShadow\Character()
 	 */
 	protected $character;
 

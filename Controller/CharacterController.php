@@ -24,106 +24,106 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class CharacterController
-	extends AbstractController
+    extends AbstractController
 {
-	/**
-	 * @Route("/edit/{charName}");
-	 * @Template()
-	 */
-	public function charAction($charName)
-	{
-    	$manager = $this->get('shadow.manager');
-		$formFactory = $this->get('form.factory');
-		$request = $this->get('request');
+    /**
+     * @Route("/edit/{charName}");
+     * @Template()
+     */
+    public function charAction($charName)
+    {
+        $manager = $this->get('shadow.manager');
+        $formFactory = $this->get('form.factory');
+        $request = $this->get('request');
 
-    	$chars = $manager->getCharacters();
-		$games = $manager->getAllGames();
+        $chars = $manager->getCharacters();
+        $games = $manager->getAllGames();
         $statProvider = new StatsProvider($games);
         $factions = $statProvider->getFactionStats();
-		$char = $chars[$charName];
+        $char = $chars[$charName];
 
-		$factionChoices = array_keys($factions);
-		$factionChoices = array_combine($factionChoices, $factionChoices);
+        $factionChoices = array_keys($factions);
+        $factionChoices = array_combine($factionChoices, $factionChoices);
 
-		$form = $formFactory->createBuilder('form', $char)
-			->add('hitPoint', 'text')
-			->add('faction', 'choice', array(
-				'choices' => $factionChoices
-			))
-			->add('abilityName', 'text', array(
-				'label' => 'Ability Name'
-			))
-			->add('ability', 'textarea')
-			->add('winCondition', 'textarea')
-			->getForm();
+        $form = $formFactory->createBuilder('form', $char)
+            ->add('hitPoint', 'text')
+            ->add('faction', 'choice', array(
+                'choices' => $factionChoices
+            ))
+            ->add('abilityName', 'text', array(
+                'label' => 'Ability Name'
+            ))
+            ->add('ability', 'textarea')
+            ->add('winCondition', 'textarea')
+            ->getForm();
 
-		$content = array();
+        $content = array();
         $response = new Response();
-		if ($request->getMethod() == 'POST') {
-			$form->bindRequest($request);
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
 
-			if ($form->isValid()) {
-				$dm = $this->get('doctrine.odm.mongodb.default_document_manager');
-				$dm->persist($char);
-				$dm->flush();
+            if ($form->isValid()) {
+                $dm = $this->get('doctrine.odm.mongodb.default_document_manager');
+                $dm->persist($char);
+                $dm->flush();
 
-				$retVal = array('success' => 'Saved.');
-				$content = json_encode($retVal);
-			}
-		}
-		if ($request->isXmlHttpRequest())
-		{
-        	$errorsProvider = $this->get('form.errors');
-		    $retVal['error'] = $errorsProvider->getErrors($form);
-		    $content = json_encode($retVal);
-		}
-		else
-		{
-		    $charStats = $statProvider->getCharacterStats();
-		    $charStats = $charStats[$charName];
-    		$params = array(
-    			'formView' => $form->createView(),
-    		    'charStats' => $charStats,
-    		    'char' => $char
-    		);
+                $retVal = array('success' => 'Saved.');
+                $content = json_encode($retVal);
+            }
+        }
+        if ($request->isXmlHttpRequest())
+        {
+            $errorsProvider = $this->get('form.errors');
+            $retVal['error'] = $errorsProvider->getErrors($form);
+            $content = json_encode($retVal);
+        }
+        else
+        {
+            $charStats = $statProvider->getCharacterStats();
+            $charStats = $charStats[$charName];
+            $params = array(
+                'formView' => $form->createView(),
+                'charStats' => $charStats,
+                'char' => $char
+            );
 
-			$content = $this->renderView(
-				'OdlShadowBundle:Character:character.html.twig', $params);
-		}
+            $content = $this->renderView(
+                'OdlShadowBundle:Character:character.html.twig', $params);
+        }
 
-		$response->setContent($content);
-		return $response;
-	}
+        $response->setContent($content);
+        return $response;
+    }
 
-	/**
-	 * @Route("/");
-	 * @Template()
-	 */
-	public function indexAction()
-	{
-    	$manager = $this->get('shadow.manager');
-		$response = parent::getGameResponse();
+    /**
+     * @Route("/");
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $manager = $this->get('shadow.manager');
+        $response = parent::getGameResponse();
 
-		if (!$response->isEmpty())
-		{
-    		$renderer = $this->get('grid.renderer.jq_grid');
-    		$gridSource = $this->get('grid.source.character');
-    		$renderer->bind($gridSource);
+        if (!$response->isEmpty())
+        {
+            $renderer = $this->get('grid.renderer.jq_table_grid');
+            $gridSource = $this->get('shadow.grid.source.character');
+            $renderer->bind($gridSource);
 
-    		$games = $manager->getAllGames();
+            $games = $manager->getAllGames();
             $statProvider = new StatsProvider($games);
-        	$view = 'OdlShadowBundle:Character:index.html.twig';
+            $view = 'OdlShadowBundle:Character:index.html.twig';
 
-    		$content = $this->renderView($view, array(
-    			'grid' => $renderer,
-    			'chars' => $manager->getCharacters(),
-    			'charsStats' => $statProvider->getCharacterStats()
-    		));
+            $content = $this->renderView($view, array(
+                'grid' => $renderer,
+                'chars' => $manager->getCharacters(),
+                'charsStats' => $statProvider->getCharacterStats()
+            ));
 
-    		$response->setContent($content);
-		}
+            $response->setContent($content);
+        }
 
-		return $response;
-	}
+        return $response;
+    }
 }
 

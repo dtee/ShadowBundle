@@ -31,11 +31,14 @@ class Game
 
     /**
      * @ODM\String
-     * @ODM\Index(unique=true, order="asc")
-     * @Assert\NotBlank()
      * @Assert\MinLength(3)
      */
     protected $name;
+
+    /**
+     * @ODM\ReferenceMany(targetDocument="GamePlayer", mappedBy="game")
+     */
+    protected $gamers;
 
     /**
      * @var PlayerCharacter
@@ -253,5 +256,45 @@ class Game
 	{
 		return $this->id;
 	}
+	/**
+	 * @return the $gamers
+	 */
+	public function getGamers()
+	{
+		return $this->gamers;
+	}
+
+	/**
+	 * @return the $updatedBy
+	 */
+	public function getUpdatedBy()
+	{
+		return $this->updatedBy;
+	}
+
+	/**
+	 * @param field_type $id
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
+	}
+
+	/**
+	 * @param field_type $gamers
+	 */
+	public function setGamers($gamers)
+	{
+		$this->gamers = $gamers;
+	}
+
+	/**
+	 * @param field_type $updatedBy
+	 */
+	public function setUpdatedBy($updatedBy)
+	{
+		$this->updatedBy = $updatedBy;
+	}
+
 
 }
