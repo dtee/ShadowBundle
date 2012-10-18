@@ -122,6 +122,10 @@ class Game
         ksort($this->players);
     }
 
+    public function removePlayer(PlayerCharacter $p) {
+        unset($this->players[$p->getUsername()]);
+    }
+
     /**
      * Set players
      *
@@ -240,61 +244,61 @@ class Game
             }
 
             $cache[$faction][] = $player;
-		}
+        }
 
-		return count($cache['hunter']) == count($cache['shadow']);
-	}
+        return count($cache['hunter']) == count($cache['shadow']);
+    }
 
-	public function __toString(){
-		return $this->name;
-	}
+    public function __toString(){
+        return $this->name;
+    }
 
-	/**
-	 * @return the $id
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-	/**
-	 * @return the $gamers
-	 */
-	public function getGamers()
-	{
-		return $this->gamers;
-	}
+    /**
+     * @return the $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * @return the $gamers
+     */
+    public function getGamers()
+    {
+        return $this->gamers;
+    }
 
-	/**
-	 * @return the $updatedBy
-	 */
-	public function getUpdatedBy()
-	{
-		return $this->updatedBy;
-	}
+    /**
+     * @return the $updatedBy
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
 
-	/**
-	 * @param field_type $id
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
-	}
+    /**
+     * @param field_type $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * @param field_type $gamers
-	 */
-	public function setGamers($gamers)
-	{
-		$this->gamers = $gamers;
-	}
+    /**
+     * @param field_type $gamers
+     */
+    public function setGamers($gamers)
+    {
+        $this->gamers = $gamers;
+    }
 
-	/**
-	 * @param field_type $updatedBy
-	 */
-	public function setUpdatedBy($updatedBy)
-	{
-		$this->updatedBy = $updatedBy;
-	}
+    /**
+     * @param field_type $updatedBy
+     */
+    public function setUpdatedBy($updatedBy)
+    {
+        $this->updatedBy = $updatedBy;
+    }
 
 
 }
